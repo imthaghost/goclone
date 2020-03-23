@@ -32,24 +32,20 @@ func ArrangeImgs(projectDir string) {
 		if err != nil {
 			panic(err)
 		}
-		// Find the review items
+
 		doc.Find("img[src]").Each(func(i int, s *goquery.Selection) {
-			// For each item found, get the band and title
-			data, err := s.Attr("src")
-			fmt.Println(err)
-			fmt.Println(data)
-			if data != "" {
+
+			data, exists := s.Attr("src")
+			if exists {
 				file := filepath.Base(data)
 				s.SetAttr("src", "imgs/"+file)
-				data, err := s.Attr("src")
+				data, exists := s.Attr("src")
 				lines[index] = fmt.Sprintf(`<img src="%s">`, data)
-				fmt.Println(data, err)
-
+				if exists {
+				}
 			}
 		})
-
 	}
-
 	output := strings.Join(lines, "\n")
 	err = ioutil.WriteFile(indexfile, []byte(output), 0777)
 	if err != nil {

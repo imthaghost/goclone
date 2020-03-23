@@ -13,14 +13,12 @@ import (
 
 // ArrangeCSS arrages css files in index file
 func ArrangeCSS(projectDir string) {
-	// css project directory
 	indexfile := projectDir + "/index.html"
 	input, err := ioutil.ReadFile(indexfile)
 	if err != nil {
 		panic(err)
 	}
 	lines := strings.Split(string(input), "\n")
-	// images, err := ioutil.ReadDir(projectDir + "/imgs")
 	// uh oh :(
 	if err != nil {
 		panic(err)
@@ -32,24 +30,20 @@ func ArrangeCSS(projectDir string) {
 		if err != nil {
 			panic(err)
 		}
-		// Find the review items
+		// Find where link has a rel attribute equal to stylesheets
 		doc.Find("link[rel='stylesheet']").Each(func(i int, s *goquery.Selection) {
-			// For each item found, get the band and title
-			data, err := s.Attr("href")
-			fmt.Println(err)
-			fmt.Println(data)
-			if data != "" {
+			// For each item found, get the hyperlink reference
+			data, exists := s.Attr("href")
+			if exists {
 				file := filepath.Base(data)
 				s.SetAttr("href", "css/"+file)
-				data, err := s.Attr("href")
+				data, exists := s.Attr("href")
 				lines[index] = fmt.Sprintf(`<link rel="stylesheet" type="text/css" href="%s">`, data)
-				fmt.Println(data, err)
-
+				if exists {
+				}
 			}
 		})
-
 	}
-
 	output := strings.Join(lines, "\n")
 	err = ioutil.WriteFile(indexfile, []byte(output), 0777)
 	if err != nil {
