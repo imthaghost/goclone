@@ -1,5 +1,12 @@
 package crawler
 
+import "fmt"
+
+// LoginCollector ...
+func LoginCollector(site string) {
+	fmt.Println(site)
+}
+
 // LoginCollector ...
 // func LoginCollector(site string) {
 // 	// const (
