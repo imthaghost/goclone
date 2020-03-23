@@ -23,14 +23,12 @@ Options:
 	// help flag
 	var help bool
 	// verbose boolean flag
-	var verbose bool
+	var login bool
 	// define help flag
 	flag.BoolVar(&help, "help", false, usage)
 	// define verbose flag
-	flag.BoolVar(&verbose, "v", false, "Use this flag if you want to see the output of the command")
+	flag.BoolVar(&login, "login", false, "Use this flag if you want to pass credentials to the site")
 	// parse the flags
 	flag.Parse()
-
-	//flag.PrintDefaults()
-	return help, verbose
+	return help, login
 }
