@@ -44,8 +44,8 @@ func main() {
 		if !parser.ValidateURL(url) && !parser.ValidateDomain(url) {
 			fmt.Println("goclone <url>")
 		} else if parser.ValidateDomain(url) {
+			// grab user credentials
 			username, password := auth.Credentials()
-			fmt.Printf("Username: %s, Password: %s\n", username, password)
 			// use the domain as the project name
 			name := url
 			// CreateProject
@@ -53,17 +53,17 @@ func main() {
 			// create the url
 			validURL := parser.CreateURL(name)
 			// Crawler
-			crawler.LoginCollector(validURL)
+			crawler.LoginCollector(validURL, username, password)
 
 		} else if parser.ValidateURL(url) {
+			// grab user credentials
 			username, password := auth.Credentials()
-			fmt.Printf("Username: %s, Password: %s\n", username, password)
 			// get the hostname
 			name := parser.GetDomain(url)
 			// create project
 			file.CreateProject(name)
 			// Crawler
-			crawler.LoginCollector(url)
+			crawler.LoginCollector(url, username, password)
 
 		} else {
 			fmt.Print(url)

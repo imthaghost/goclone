@@ -3,7 +3,7 @@ package crawler
 import "fmt"
 
 // LoginCollector ...
-func LoginCollector(site string) {
+func LoginCollector(site string, username string, password string) {
 	fmt.Println(site)
 }
 
