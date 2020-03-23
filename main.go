@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"os/exec"
 
 	"github.com/imthaghost/goclone/auth"
 	"github.com/imthaghost/goclone/crawler"
@@ -49,21 +50,25 @@ func main() {
 			// use the domain as the project name
 			name := url
 			// CreateProject
-			file.CreateProject(name)
+			projectpath := file.CreateProject(name)
 			// create the url
 			validURL := parser.CreateURL(name)
 			// Crawler
-			crawler.LoginCollector(validURL, username, password)
+			crawler.LoginCollector(projectpath, validURL, username, password)
+			// Restructure html
+			html.LinkRestructure(projectpath)
 
 		} else if parser.ValidateURL(url) {
 			// grab user credentials
 			username, password := auth.Credentials()
 			// get the hostname
 			name := parser.GetDomain(url)
-			// create project
-			file.CreateProject(name)
+			// CreateProject
+			projectpath := file.CreateProject(name)
 			// Crawler
-			crawler.LoginCollector(url, username, password)
+			crawler.LoginCollector(projectpath, url, username, password)
+			// Restructure html
+			html.LinkRestructure(projectpath)
 
 		} else {
 			fmt.Print(url)
@@ -85,6 +90,10 @@ func main() {
 			crawler.Crawl(validURL, projectpath)
 			// Restructure html
 			html.LinkRestructure(projectpath)
+			err := exec.Command("open", projectpath+"/index.html").Start()
+			if err != nil {
+				panic(err)
+			}
 		} else if parser.ValidateURL(url) {
 			// get the hostname
 			name := parser.GetDomain(url)
@@ -94,6 +103,10 @@ func main() {
 			crawler.Crawl(url, projectpath)
 			// Restructure html
 			html.LinkRestructure(projectpath)
+			err := exec.Command("open", projectpath+"/index.html").Start()
+			if err != nil {
+				panic(err)
+			}
 		} else {
 			fmt.Print(url)
 		}
