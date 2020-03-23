@@ -1,5 +1,7 @@
 package parser
 
+import "path"
+
 // URLFilename returns the file name from a given url
 func URLFilename(filename string) string {
 	/*
@@ -9,12 +11,11 @@ func URLFilename(filename string) string {
 		>>> https://dribbble.com/css/home.css
 		<<< home.css
 	*/
-	some := "Nothing for now"
-	return some
+	return path.Base(filename)
 }
 
 // PathFilename returns the file name from a given path
-func PathFilename(path string) string {
+func PathFilename(givenPath string) string {
 	/*
 		>>> /css/main.css
 		<<< main.css
@@ -22,6 +23,5 @@ func PathFilename(path string) string {
 		>>> /js/googleanalytics.js
 		<<< googleanalytics.js
 	*/
-	some := "Nothing for now"
-	return some
+	return path.Base(givenPath)
 }
