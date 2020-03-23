@@ -39,7 +39,6 @@ func ArrangeJS(projectDir string) {
 				}
 			}
 		})
-
 	}
 	output := strings.Join(lines, "\n")
 	err = ioutil.WriteFile(indexfile, []byte(output), 0777)
