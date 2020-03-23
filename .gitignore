@@ -1,0 +1,5 @@
+.DS_Store
+.vscode
+.env
+parser/domains.csv
+dist
