@@ -28,131 +28,38 @@ func Extractor(link string, projectPath string) {
 	// file extension
 	extension := filepath.Ext(base)
 
-	// css extension
+	// I wish we could use a switch statement..
 	if strings.Contains(extension, ".css") {
-		var name = base[0 : len(base)-len(extension)]
-		document := name + ".css"
-		fmt.Println(document)
-		// get the project name and path we use the path to
-		f, err := os.OpenFile(projectPath+"/"+"css/"+document, os.O_RDWR|os.O_CREATE, 0777)
-		if err != nil {
-			panic(err)
-		}
-		defer f.Close()
-		htmlData, err := ioutil.ReadAll(resp.Body)
-
-		if err != nil {
-			panic(err)
-		}
-		f.Write(htmlData)
-
+		writeFileToPath(projectPath, base, extension, ".css", "css", resp)
+	} else if strings.Contains(extension, ".js") {
+		writeFileToPath(projectPath, base, extension, ".js", "js", resp)
+	} else if strings.Contains(extension, ".jpg") {
+		writeFileToPath(projectPath, base, extension, ".jpg", "imgs", resp)
+	} else if strings.Contains(extension, ".jpeg") {
+		writeFileToPath(projectPath, base, extension, ".jpeg", "imgs", resp)
+	} else if strings.Contains(extension, ".gif") {
+		writeFileToPath(projectPath, base, extension, ".gif", "imgs", resp)
+	} else if strings.Contains(extension, ".svg") {
+		writeFileToPath(projectPath, base, extension, ".gif", "imgs", resp)
+	} else if strings.Contains(extension, ".png") {
+		writeFileToPath(projectPath, base, extension, ".png", "imgs", resp)
 	}
+}
 
-	// js extension
-	if strings.Contains(extension, ".js") {
-		var name = base[0 : len(base)-len(extension)]
-		document := name + ".js"
+func writeFileToPath(projectPath, base, oldFileExt, newFileExt, fileDir string, resp *http.Response) {
+	var name = base[0 : len(base)-len(oldFileExt)]
+	document := name + newFileExt
 
-		f, err := os.OpenFile(projectPath+"/"+"js/"+document, os.O_RDWR|os.O_CREATE, 0777)
-		if err != nil {
-			panic(err)
-		}
-		defer f.Close()
-		htmlData, err := ioutil.ReadAll(resp.Body)
-
-		if err != nil {
-			panic(err)
-		}
-		f.Write(htmlData)
+	// get the project name and path we use the path to
+	f, err := os.OpenFile(projectPath+"/"+fileDir+"/"+document, os.O_RDWR|os.O_CREATE, 0777)
+	if err != nil {
+		panic(err)
 	}
+	defer f.Close()
+	htmlData, err := ioutil.ReadAll(resp.Body)
 
-	// jpg extension
-	if strings.Contains(extension, ".jpg") {
-		var name = base[0 : len(base)-len(extension)]
-		document := name + ".jpg"
-
-		f, err := os.OpenFile(projectPath+"/"+"imgs/"+document, os.O_RDWR|os.O_CREATE, 0777)
-		if err != nil {
-			panic(err)
-		}
-		defer f.Close()
-		htmlData, err := ioutil.ReadAll(resp.Body)
-
-		if err != nil {
-			panic(err)
-		}
-		f.Write(htmlData)
+	if err != nil {
+		panic(err)
 	}
-
-	// png entension
-	if strings.Contains(extension, ".png") {
-		var name = base[0 : len(base)-len(extension)]
-		document := name + ".png"
-
-		f, err := os.OpenFile(projectPath+"/"+"imgs/"+document, os.O_RDWR|os.O_CREATE, 0777)
-		if err != nil {
-			panic(err)
-		}
-		defer f.Close()
-		htmlData, err := ioutil.ReadAll(resp.Body)
-
-		if err != nil {
-			panic(err)
-		}
-		f.Write(htmlData)
-	}
-
-	// gif extension
-	if strings.Contains(extension, ".gif") {
-		var name = base[0 : len(base)-len(extension)]
-		document := name + ".gif"
-
-		f, err := os.OpenFile(projectPath+"/"+"imgs/"+document, os.O_RDWR|os.O_CREATE, 0777)
-		if err != nil {
-			panic(err)
-		}
-		defer f.Close()
-		htmlData, err := ioutil.ReadAll(resp.Body)
-
-		if err != nil {
-			panic(err)
-		}
-		f.Write(htmlData)
-	}
-
-	// jpeg extension
-	if strings.Contains(extension, ".jpeg") {
-		var name = base[0 : len(base)-len(extension)]
-		document := name + ".jpeg"
-
-		f, err := os.OpenFile(projectPath+"/"+"imgs/"+document, os.O_RDWR|os.O_CREATE, 0777)
-		if err != nil {
-			panic(err)
-		}
-		defer f.Close()
-		htmlData, err := ioutil.ReadAll(resp.Body)
-
-		if err != nil {
-			panic(err)
-		}
-		f.Write(htmlData)
-	}
-
-	// svg extension
-	if strings.Contains(extension, ".svg") {
-		var name = base[0 : len(base)-len(extension)]
-		document := name + ".svg"
-
-		f, err := os.OpenFile(projectPath+"/"+"imgs/"+document, os.O_RDWR|os.O_CREATE, 0777)
-		if err != nil {
-			panic(err)
-		}
-		defer f.Close()
-		htmlData, err := ioutil.ReadAll(resp.Body)
-
-		if err != nil {
-			panic(err)
-		}
-		f.Write(htmlData)
-	}
+	f.Write(htmlData)
 }
