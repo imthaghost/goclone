@@ -10,31 +10,24 @@ import (
 	"strings"
 )
 
-// Extractor visits a link dtermines if its a page or sublink downloads
+// Extractor visits a link determines if its a page or sublink downloads
 // the contents to a correct directory in project folder
 func Extractor(link string, projectPath string) {
-	// create and write files to our project directory
-	// write as it downloads and not load the whole file into memory.
-	// out, err := f.Create(document)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-	// defer out.Close()
-	// Write the body to file
-	// _, err = io.Copy(out, resp.Body)
-	// fmt.Println(err)
 	fmt.Println("Extracting --> ", link)
+
 	// get the html body
 	resp, err := http.Get(link)
 	if err != nil {
 		panic(err)
 	}
+
 	// Closure
 	defer resp.Body.Close()
 	// file base
 	base := path.Base(link)
 	// file extension
 	extension := filepath.Ext(base)
+
 	// css extension
 	if strings.Contains(extension, ".css") {
 		var name = base[0 : len(base)-len(extension)]
@@ -53,6 +46,7 @@ func Extractor(link string, projectPath string) {
 		f.Write(htmlData)
 
 	}
+
 	// js extension
 	if strings.Contains(extension, ".js") {
 		var name = base[0 : len(base)-len(extension)]
@@ -70,6 +64,7 @@ func Extractor(link string, projectPath string) {
 		}
 		f.Write(htmlData)
 	}
+
 	// jpg extension
 	if strings.Contains(extension, ".jpg") {
 		var name = base[0 : len(base)-len(extension)]
@@ -87,6 +82,7 @@ func Extractor(link string, projectPath string) {
 		}
 		f.Write(htmlData)
 	}
+
 	// png entension
 	if strings.Contains(extension, ".png") {
 		var name = base[0 : len(base)-len(extension)]
@@ -104,6 +100,7 @@ func Extractor(link string, projectPath string) {
 		}
 		f.Write(htmlData)
 	}
+
 	// gif extension
 	if strings.Contains(extension, ".gif") {
 		var name = base[0 : len(base)-len(extension)]
@@ -121,6 +118,7 @@ func Extractor(link string, projectPath string) {
 		}
 		f.Write(htmlData)
 	}
+
 	// jpeg extension
 	if strings.Contains(extension, ".jpeg") {
 		var name = base[0 : len(base)-len(extension)]
@@ -138,6 +136,7 @@ func Extractor(link string, projectPath string) {
 		}
 		f.Write(htmlData)
 	}
+
 	// svg extension
 	if strings.Contains(extension, ".svg") {
 		var name = base[0 : len(base)-len(extension)]

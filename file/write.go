@@ -1,15 +1,30 @@
 package file
 
 import (
-	"io/ioutil"
 	"log"
 	"os"
 )
 
-func check(err error) {
-	if err != nil {
-		log.Println(err)
-	}
+// CreateProject initializes the project directory and returns the path to the project
+func CreateProject(projectName string) string {
+	path := currentDirectory()
+
+	// define project path
+	projectPath := path + "/" + projectName
+
+	// create root directory
+	err := os.MkdirAll(projectPath, 0777)
+	check(err)
+
+	// Create CS/JS/img directories
+	createCSS(projectPath)
+	createJS(projectPath)
+	createIMG(projectPath)
+
+	_, err = os.Create(projectPath + "/" + "index.html")
+	check(err)
+	// project path
+	return projectPath
 }
 
 func currentDirectory() string {
@@ -33,37 +48,8 @@ func createIMG(path string) {
 	check(err)
 }
 
-// WriteStream will write a stream to desierd file
-func WriteStream(filename string, stream []byte) {
-	// wite string to file
-	ioutil.WriteFile(filename, []byte(stream), 0777)
-	// dst, err := os.Create(filepath.Join(dir, filepath.Base(file.Filename))) // dir is directory where you want to save file.
-	// if err != nil {
-	// 	checkErr(err)
-	// 	return
-	// }
-	// defer dst.Close()
-	// if _, err = io.Copy(dst, src); err != nil {
-	// 	checkErr(err)
-	// 	return
-	// }
-
-}
-
-// CreateProject initializes the project directory and returns the path to the project
-func CreateProject(projectName string) string {
-	path := currentDirectory()
-	// define project path
-	projectPath := path + "/" + projectName
-	// create root directory
-	err := os.MkdirAll(projectPath, 0777)
-	check(err)
-	createCSS(projectPath)
-	createJS(projectPath)
-	createIMG(projectPath)
-	f, err := os.Create(projectPath + "/" + "index.html")
-	check(err)
-	f.Close()
-	// project path
-	return projectPath
+func check(err error) {
+	if err != nil {
+		log.Println(err)
+	}
 }
