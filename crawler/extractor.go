@@ -40,7 +40,7 @@ func Extractor(link string, projectPath string) {
 	} else if strings.Contains(extension, ".gif") {
 		writeFileToPath(projectPath, base, extension, ".gif", "imgs", resp)
 	} else if strings.Contains(extension, ".svg") {
-		writeFileToPath(projectPath, base, extension, ".gif", "imgs", resp)
+		writeFileToPath(projectPath, base, extension, ".svg", "imgs", resp)
 	} else if strings.Contains(extension, ".png") {
 		writeFileToPath(projectPath, base, extension, ".png", "imgs", resp)
 	}
