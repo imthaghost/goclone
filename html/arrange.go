@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
@@ -56,13 +57,17 @@ func arrange(projectDir string) {
 
 		// Replace IMG links in HTML
 		doc.Find("img[src]").Each(func(i int, s *goquery.Selection) {
-
 			data, exists := s.Attr("src")
 			if exists {
+				original := lines[index]
 				file := filepath.Base(data)
 				s.SetAttr("src", "imgs/"+file)
+
 				data, exists := s.Attr("src")
-				lines[index] = fmt.Sprintf(`<img src="%s">`, data)
+
+				var re = regexp.MustCompile(`src\s*=\s*"(.+?)"`)
+				copy := re.ReplaceAllString(original, `src=`+data)
+				lines[index] = copy
 				if exists {
 				}
 			}

@@ -129,6 +129,8 @@ func main() {
 			validURL := parser.CreateURL(name)
 			// Crawler
 			crawler.Crawl(validURL, projectpath)
+			indexfile := projectpath + "/index.html"
+			html.FormatHTML(indexfile)
 			// Restructure html
 			html.LinkRestructure(projectpath)
 			err := exec.Command("open", projectpath+"/index.html").Start()
@@ -142,6 +144,9 @@ func main() {
 			projectpath := file.CreateProject(name)
 			// Crawler
 			crawler.Crawl(url, projectpath)
+			indexfile := projectpath + "/index.html"
+			// Format html
+			html.FormatHTML(indexfile)
 			// Restructure html
 			html.LinkRestructure(projectpath)
 			err := exec.Command("open", projectpath+"/index.html").Start()
