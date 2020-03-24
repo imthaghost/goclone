@@ -18,6 +18,7 @@ func ValidateURL(url string) bool {
 	if !strutil.NewStringValidator().IsValidURL(url) {
 		return false
 	}
+
 	return true
 }
 
@@ -33,6 +34,7 @@ func ValidateDomain(domain string) bool {
 	if !strutil.NewStringValidator().IsValidDomain(domain) {
 		return false
 	}
+
 	return true
 }
 
@@ -43,10 +45,8 @@ func CreateURL(domain string) string {
 		<<< https://google.com - Returned URL
 	*/
 
-	// concatenate https:// and the valid domain
-	URL := "https://" + domain
-	// valid url
-	return URL
+	// concatenate https:// and the valid domain and return the now valid url
+	return "https://" + domain
 }
 
 // GetDomain takes in a valid URL and returns the domain of the url
@@ -58,12 +58,14 @@ func GetDomain(validurl string) string {
 
 	// parse the url
 	u, err := url.Parse(validurl)
-	// nil check
+
 	if err != nil {
 		panic(err)
 	}
+
 	// grab the hostname from the string
 	hostname := u.Hostname()
+
 	// hostname
 	return hostname
 }
