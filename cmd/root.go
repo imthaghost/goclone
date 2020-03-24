@@ -14,7 +14,7 @@ var (
 
 	// Root cmd
 	rootCmd = &cobra.Command{
-		Use:   "goclones",
+		Use:   "goclone <url>",
 		Short: "Clone a website with ease!",
 		Long:  `Copy websites to your computer! goclone is a utility that allows you to download a website from the Internet to a local directory. Get html, css, js, images, and other files from the server to your computer. goclone arranges the original site's relative link-structure. Simply open a page of the "mirrored" website in your browser, and you can browse the site from link to link, as if you were viewing it online.`, // TODO Update link once we change repo name
 		Args:  cobra.ArbitraryArgs,
