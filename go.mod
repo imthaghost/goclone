@@ -16,6 +16,8 @@ require (
 	github.com/labstack/echo v3.3.10+incompatible
 	github.com/mattn/echo-livereload v0.0.0-20200128104040-3da1cf6937dc
 	github.com/saintfish/chardet v0.0.0-20120816061221-3af4cd4741ca // indirect
+	github.com/spf13/cobra v0.0.6
+	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/temoto/robotstxt v1.1.1 // indirect
 	github.com/torden/go-strutil v0.1.5
 	golang.org/x/net v0.0.0-20200222125558-5a598a2470a0
