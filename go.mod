@@ -20,6 +20,7 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/temoto/robotstxt v1.1.1 // indirect
 	github.com/torden/go-strutil v0.1.5
+	github.com/yosssi/gohtml v0.0.0-20190915184251-7ff6f235ecaf
 	golang.org/x/net v0.0.0-20200222125558-5a598a2470a0
 	google.golang.org/appengine v1.6.5 // indirect
 )
