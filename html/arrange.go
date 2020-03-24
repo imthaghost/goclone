@@ -27,7 +27,7 @@ func arrange(projectDir string) {
 		if err != nil {
 			panic(err)
 		}
-		// Replace JS Files in HTML
+		// Replace JS links in HTML
 		doc.Find("script[src]").Each(func(i int, s *goquery.Selection) {
 			data, exists := s.Attr("src")
 			if exists {
@@ -40,7 +40,7 @@ func arrange(projectDir string) {
 			}
 		})
 
-		// Replace CSS Files in HTML
+		// Replace CSS links in HTML
 		doc.Find("link[rel='stylesheet']").Each(func(i int, s *goquery.Selection) {
 			// For each item found, get the hyperlink reference
 			data, exists := s.Attr("href")
@@ -54,7 +54,7 @@ func arrange(projectDir string) {
 			}
 		})
 
-		// Replace IMG files in HTML
+		// Replace IMG links in HTML
 		doc.Find("img[src]").Each(func(i int, s *goquery.Selection) {
 
 			data, exists := s.Attr("src")
