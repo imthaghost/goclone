@@ -10,12 +10,13 @@ import (
 // reorganizes each file with local links (css js images)
 func LinkRestructure(projectDir string) {
 	// arrange css
-	arrangeCSS(projectDir)
-	// arrange js
-	arrangeJS(projectDir)
-	// arrange imgs
-	arrangeImgs(projectDir)
+	// arrangeCSS(projectDir)
+	// // arrange js
+	// arrangeJS(projectDir)
+	// // arrange imgs
+	// arrangeImgs(projectDir)
 
+	arrange(projectDir)
 }
 
 func collectText(n *html.Node, buf *bytes.Buffer) {

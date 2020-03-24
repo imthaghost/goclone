@@ -11,8 +11,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-// arrangeJS arranges javascript in index file
-func arrangeJS(projectDir string) {
+func arrange(projectDir string) {
 	// css project directory
 	indexfile := projectDir + "/index.html"
 	input, err := ioutil.ReadFile(indexfile)
@@ -28,6 +27,7 @@ func arrangeJS(projectDir string) {
 		if err != nil {
 			panic(err)
 		}
+		// Replace JS Files in HTML
 		doc.Find("script[src]").Each(func(i int, s *goquery.Selection) {
 			data, exists := s.Attr("src")
 			if exists {
@@ -39,34 +39,8 @@ func arrangeJS(projectDir string) {
 				}
 			}
 		})
-	}
-	output := strings.Join(lines, "\n")
-	err = ioutil.WriteFile(indexfile, []byte(output), 0777)
-	if err != nil {
-		log.Fatalln(err)
-	}
-}
 
-// arrangeCSS arrages css files in index file
-func arrangeCSS(projectDir string) {
-	indexfile := projectDir + "/index.html"
-	input, err := ioutil.ReadFile(indexfile)
-	if err != nil {
-		panic(err)
-	}
-	lines := strings.Split(string(input), "\n")
-	// uh oh :(
-	if err != nil {
-		panic(err)
-	}
-	for index, line := range lines {
-		b := []byte(line)
-		r := bytes.NewReader(b)
-		doc, err := goquery.NewDocumentFromReader(r)
-		if err != nil {
-			panic(err)
-		}
-		// Find where link has a rel attribute equal to stylesheets
+		// Replace CSS Files in HTML
 		doc.Find("link[rel='stylesheet']").Each(func(i int, s *goquery.Selection) {
 			// For each item found, get the hyperlink reference
 			data, exists := s.Attr("href")
@@ -79,36 +53,8 @@ func arrangeCSS(projectDir string) {
 				}
 			}
 		})
-	}
-	output := strings.Join(lines, "\n")
-	err = ioutil.WriteFile(indexfile, []byte(output), 0777)
-	if err != nil {
-		log.Fatalln(err)
-	}
-}
 
-// arrangeImgs arranges all images in project
-func arrangeImgs(projectDir string) {
-	// css project directory
-	indexfile := projectDir + "/index.html"
-	input, err := ioutil.ReadFile(indexfile)
-	if err != nil {
-		panic(err)
-	}
-	lines := strings.Split(string(input), "\n")
-	// images, err := ioutil.ReadDir(projectDir + "/imgs")
-	// uh oh :(
-	if err != nil {
-		panic(err)
-	}
-	for index, line := range lines {
-		b := []byte(line)
-		r := bytes.NewReader(b)
-		doc, err := goquery.NewDocumentFromReader(r)
-		if err != nil {
-			panic(err)
-		}
-
+		// Replace IMG files in HTML
 		doc.Find("img[src]").Each(func(i int, s *goquery.Selection) {
 
 			data, exists := s.Attr("src")
