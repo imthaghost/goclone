@@ -11,6 +11,7 @@ import (
 	"github.com/imthaghost/goclone/flags"
 	"github.com/imthaghost/goclone/html"
 	"github.com/imthaghost/goclone/parser"
+	"github.com/imthaghost/goclone/server"
 )
 
 func main() {
@@ -34,7 +35,7 @@ func main() {
 		fmt.Println(usage)
 		return
 	}
-	help, login := flags.ParseFlags()
+	help, login, serve := flags.ParseFlags()
 	if help {
 		fmt.Println(usage)
 		return
@@ -70,6 +71,46 @@ func main() {
 			// Restructure html
 			html.LinkRestructure(projectpath)
 
+		} else {
+			fmt.Print(url)
+		}
+	} else if serve == true {
+		url := os.Args[2]
+
+		// grab the url from the
+		if !parser.ValidateURL(url) && !parser.ValidateDomain(url) {
+			fmt.Println("goclone <url>")
+		} else if parser.ValidateDomain(url) {
+			// use the domain as the project name
+			name := url
+			// CreateProject
+			projectpath := file.CreateProject(name)
+			// create the url
+			validURL := parser.CreateURL(name)
+			// Crawler
+			crawler.Crawl(validURL, projectpath)
+			// Restructure html
+			html.LinkRestructure(projectpath)
+			err := exec.Command("open", "http://localhost:5000").Start()
+			if err != nil {
+				panic(err)
+			}
+			server.Serve(projectpath)
+
+		} else if parser.ValidateURL(url) {
+			// get the hostname
+			name := parser.GetDomain(url)
+			// create project
+			projectpath := file.CreateProject(name)
+			// Crawler
+			crawler.Crawl(url, projectpath)
+			// Restructure html
+			html.LinkRestructure(projectpath)
+			err := exec.Command("open", "http://localhost:5000").Start()
+			if err != nil {
+				panic(err)
+			}
+			server.Serve(projectpath)
 		} else {
 			fmt.Print(url)
 		}
