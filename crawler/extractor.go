@@ -32,6 +32,7 @@ func Extractor(link string, projectPath string) {
 	if strings.Contains(extension, ".css") {
 		var name = base[0 : len(base)-len(extension)]
 		document := name + ".css"
+		fmt.Println(document)
 		// get the project name and path we use the path to
 		f, err := os.OpenFile(projectPath+"/"+"css/"+document, os.O_RDWR|os.O_CREATE, 0777)
 		if err != nil {

@@ -5,7 +5,7 @@ import (
 )
 
 // ParseFlags ...
-func ParseFlags() (bool, bool) {
+func ParseFlags() (bool, bool, bool) {
 	usage := `
 
 	Usage:
@@ -24,11 +24,15 @@ Options:
 	var help bool
 	// verbose boolean flag
 	var login bool
+	// serve
+	var serve bool
 	// define help flag
 	flag.BoolVar(&help, "help", false, usage)
 	// define verbose flag
 	flag.BoolVar(&login, "login", false, "Use this flag if you want to pass credentials to the site")
+	// define serve
+	flag.BoolVar(&serve, "serve", false, "Use this flag to host this site on an echo server")
 	// parse the flags
 	flag.Parse()
-	return help, login
+	return help, login, serve
 }
