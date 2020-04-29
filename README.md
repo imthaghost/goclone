@@ -22,6 +22,7 @@ Copy websites to your computer! goclone is a utility that allows you to download
 ## Table of Contents
 
 -   [Installation](#installation)
+-   [Todo](#Todo)
 -   [Examples](#examples)
 -   [License](#license)
 -   [Contributors](#contributors)
@@ -55,6 +56,7 @@ go install
 -   [x] Clone top level site only
 -   [x] Update command line interface with Cobra
 -   [ ] Clone all pages with given domain
+-   [ ] Clone site that sits behind authentication wall
 -   [ ] Update scraper for better performance
 
 ### Long term
