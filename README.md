@@ -83,7 +83,7 @@ In short, when you submit code changes, your submissions are understood to be un
 
 ## Contributors
 
-Contributions are welcome! Please see [Contributing Guide](https://imthaghost/zeus) for more details.
+Contributions are welcome! Please see [Contributing Guide](https://github.com/imthaghost/goclone/blob/master/docs/CONTRIBUTING.md) for more details.
 
 <table>
   <tr>
