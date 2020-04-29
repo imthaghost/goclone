@@ -48,6 +48,20 @@ cd $GOPATH/src/github.com/<username>/goclone
 go install
 ```
 
+## Todo
+
+### Short term
+
+-   [x] Clone top level site only
+-   [x] Update command line interface with Cobra
+-   [ ] Clone all pages with given domain
+-   [ ] Update scraper for better performance
+
+### Long term
+
+-   [ ] User specified depth of clone
+-   [ ] Support both OSX and Linux (potentially Windows as well)
+
 ## Examples
 
 ###
