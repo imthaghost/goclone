@@ -101,6 +101,7 @@ func cloneSite(args []string) {
 			crawler.Crawl(validURL, projectpath)
 			// Restructure html
 			html.LinkRestructure(projectpath)
+			// automatically open project
 			err := exec.Command("open", projectpath+"/index.html").Start()
 			if err != nil {
 				panic(err)
