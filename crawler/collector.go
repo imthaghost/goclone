@@ -13,6 +13,7 @@ func Collector(url string, projectPath string) {
 		// asychronus boolean
 		colly.Async(true),
 	)
+	
 
 	// search for all link tags that have a rel attribute that is equal to stylesheet - CSS
 	c.OnHTML("link[rel='stylesheet']", func(e *colly.HTMLElement) {
