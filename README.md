@@ -42,7 +42,7 @@ brew install goclone
 
 ```bash
 # go get :)
-go get https://github.com/imthaghost/goclone
+go get github.com/imthaghost/goclone
 # change to project directory using your GOPATH
 cd $GOPATH/src/github.com/imthaghost/goclone
 # build and install application
@@ -56,13 +56,12 @@ go install
 -   [x] Clone top level site only
 -   [x] Update command line interface with Cobra
 -   [ ] Clone all pages with given domain
--   [ ] Clone site that sits behind authentication wall
+-   [ ] 80-100% test coverage
 -   [ ] Update scraper for better performance
 
 ### Long term
-
+-   [ ] Clone site that sits behind authentication wall
 -   [ ] User specified depth of clone
--   [ ] Support both OSX and Linux (potentially Windows as well)
 
 ## Examples
 
