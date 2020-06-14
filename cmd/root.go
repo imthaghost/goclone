@@ -11,6 +11,7 @@ var (
 	// Flags
 	Login bool
 	Serve bool
+	Open  bool
 
 	// Root cmd
 	rootCmd = &cobra.Command{
@@ -37,6 +38,7 @@ var (
 // Execute the clone command
 func Execute() {
 	// Persistent Flags
+	rootCmd.PersistentFlags().BoolVarP(&Open, "open", "o", false, "Automatically open project in deafult browser")
 	rootCmd.PersistentFlags().BoolVarP(&Login, "login", "l", false, "Wether to use a username or password")
 	rootCmd.PersistentFlags().BoolVarP(&Serve, "serve", "s", false, "Serve the generated files using Echo.")
 

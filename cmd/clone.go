@@ -101,11 +101,14 @@ func cloneSite(args []string) {
 			crawler.Crawl(validURL, projectpath)
 			// Restructure html
 			html.LinkRestructure(projectpath)
-			// automatically open project
-			err := exec.Command("open", projectpath+"/index.html").Start()
-			if err != nil {
-				panic(err)
+			if Open {
+				// automatically open project
+				err := exec.Command("open", projectpath+"/index.html").Start()
+				if err != nil {
+					panic(err)
+				}
 			}
+
 		} else if parser.ValidateURL(url) {
 			// get the hostname
 			name := parser.GetDomain(url)
@@ -115,9 +118,11 @@ func cloneSite(args []string) {
 			crawler.Crawl(url, projectpath)
 			// Restructure html
 			html.LinkRestructure(projectpath)
-			err := exec.Command("open", projectpath+"/index.html").Start()
-			if err != nil {
-				panic(err)
+			if Open {
+				err := exec.Command("open", projectpath+"/index.html").Start()
+				if err != nil {
+					panic(err)
+				}
 			}
 		} else {
 			fmt.Print(url)
