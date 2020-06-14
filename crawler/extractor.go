@@ -5,13 +5,24 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
-	"path"
-	"path/filepath"
-	"strings"
+
+	"github.com/imthaghost/goclone/parser"
 )
 
-// Extractor visits a link determines if its a page or sublink downloads
-// the contents to a correct directory in project folder
+var (
+	extensionDir = map[string]string{
+		".css":  "css",
+		".js":   "js",
+		".jpg":  "imgs",
+		".jpeg": "imgs",
+		".gif":  "imgs",
+		".png":  "imgs",
+		".svg":  "imgs",
+	}
+)
+
+// Extractor visits a link determines if its a page or sublink
+// downloads the contents to a correct directory in project folder
 func Extractor(link string, projectPath string) {
 	fmt.Println("Extracting --> ", link)
 
@@ -24,25 +35,19 @@ func Extractor(link string, projectPath string) {
 	// Closure
 	defer resp.Body.Close()
 	// file base
-	base := path.Base(link)
+	base := parser.URLFilename(link)
 	// file extension
-	extension := filepath.Ext(base)
+	ext := parser.URLExtension(link)
 
-	// I wish we could use a switch statement..
-	if strings.Contains(extension, ".css") {
-		writeFileToPath(projectPath, base, extension, ".css", "css", resp)
-	} else if strings.Contains(extension, ".js") {
-		writeFileToPath(projectPath, base, extension, ".js", "js", resp)
-	} else if strings.Contains(extension, ".jpg") {
-		writeFileToPath(projectPath, base, extension, ".jpg", "imgs", resp)
-	} else if strings.Contains(extension, ".jpeg") {
-		writeFileToPath(projectPath, base, extension, ".jpeg", "imgs", resp)
-	} else if strings.Contains(extension, ".gif") {
-		writeFileToPath(projectPath, base, extension, ".gif", "imgs", resp)
-	} else if strings.Contains(extension, ".svg") {
-		writeFileToPath(projectPath, base, extension, ".svg", "imgs", resp)
-	} else if strings.Contains(extension, ".png") {
-		writeFileToPath(projectPath, base, extension, ".png", "imgs", resp)
+	// checks if there was a valid extension
+	if ext != "" {
+		// checks if that extension has a directory path name associated with it
+		// from the extensionDir map
+		dirPath := extensionDir[ext]
+		if dirPath != "" {
+			// If extension and path are valid, move on to writeFileToPath
+			writeFileToPath(projectPath, base, ext, ext, dirPath, resp)
+		}
 	}
 }
 
