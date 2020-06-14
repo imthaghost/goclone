@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os/exec"
 
-	"github.com/imthaghost/goclone/auth"
 	"github.com/imthaghost/goclone/crawler"
 	"github.com/imthaghost/goclone/file"
 	"github.com/imthaghost/goclone/html"
@@ -15,40 +14,8 @@ import (
 // Clone the given site :)
 func cloneSite(args []string) {
 	url := args[0]
-	if Login == true {
-		// grab the url from the
-		if !parser.ValidateURL(url) && !parser.ValidateDomain(url) {
-			fmt.Println("goclone <url>")
-		} else if parser.ValidateDomain(url) {
-			// grab user credentials
-			username, password := auth.Credentials()
-			// use the domain as the project name
-			name := url
-			// CreateProject
-			projectpath := file.CreateProject(name)
-			// create the url
-			validURL := parser.CreateURL(name)
-			// Crawler
-			crawler.LoginCollector(projectpath, validURL, username, password)
-			// Restructure html
-			html.LinkRestructure(projectpath)
 
-		} else if parser.ValidateURL(url) {
-			// grab user credentials
-			username, password := auth.Credentials()
-			// get the hostname
-			name := parser.GetDomain(url)
-			// CreateProject
-			projectpath := file.CreateProject(name)
-			// Crawler
-			crawler.LoginCollector(projectpath, url, username, password)
-			// Restructure html
-			html.LinkRestructure(projectpath)
-
-		} else {
-			fmt.Print(url)
-		}
-	} else if Serve == true {
+	if Serve == true {
 		// grab the url from the
 		if !parser.ValidateURL(url) && !parser.ValidateDomain(url) {
 			fmt.Println("goclone <url>")

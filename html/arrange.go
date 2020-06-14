@@ -33,7 +33,7 @@ func arrange(projectDir string) {
 			data, exists := s.Attr("src")
 			if exists {
 				file := filepath.Base(data)
-				fmt.Println(file)
+
 				s.SetAttr("src", "js/"+file)
 				data, exists := s.Attr("src")
 				lines[index] = fmt.Sprintf(`<script src="%s"></script>`, data)
@@ -48,7 +48,7 @@ func arrange(projectDir string) {
 			data, exists := s.Attr("href")
 			if exists {
 				file := filepath.Base(data)
-				fmt.Println(file)
+
 				s.SetAttr("href", "css/"+file)
 				data, exists := s.Attr("href")
 				lines[index] = fmt.Sprintf(`<link rel="stylesheet" type="text/css" href="%s">`, data)
