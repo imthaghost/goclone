@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"path/filepath"
 
 	"github.com/imthaghost/goclone/parser"
 )
@@ -36,6 +37,8 @@ func Extractor(link string, projectPath string) {
 	defer resp.Body.Close()
 	// file base
 	base := parser.URLFilename(link)
+	// store the old ext, in special cases the ext is weird ".css?a134fv"
+	oldExt := filepath.Ext(base)
 	// file extension
 	ext := parser.URLExtension(link)
 
@@ -46,7 +49,7 @@ func Extractor(link string, projectPath string) {
 		dirPath := extensionDir[ext]
 		if dirPath != "" {
 			// If extension and path are valid, move on to writeFileToPath
-			writeFileToPath(projectPath, base, ext, ext, dirPath, resp)
+			writeFileToPath(projectPath, base, oldExt, ext, dirPath, resp)
 		}
 	}
 }
