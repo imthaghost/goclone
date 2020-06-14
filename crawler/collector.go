@@ -7,13 +7,13 @@ import (
 )
 
 // Collector searches for css, js, and images within a given link
+// TODO improve for better performance
 func Collector(url string, projectPath string) {
 	// create a new collector
 	c := colly.NewCollector(
 		// asychronus boolean
 		colly.Async(true),
 	)
-	
 
 	// search for all link tags that have a rel attribute that is equal to stylesheet - CSS
 	c.OnHTML("link[rel='stylesheet']", func(e *colly.HTMLElement) {

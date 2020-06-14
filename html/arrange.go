@@ -12,8 +12,8 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
+// TODO: figure out what was done here at 4am
 func arrange(projectDir string) {
-	// css project directory
 	indexfile := projectDir + "/index.html"
 	input, err := ioutil.ReadFile(indexfile)
 	if err != nil {
@@ -33,6 +33,7 @@ func arrange(projectDir string) {
 			data, exists := s.Attr("src")
 			if exists {
 				file := filepath.Base(data)
+				fmt.Println(file)
 				s.SetAttr("src", "js/"+file)
 				data, exists := s.Attr("src")
 				lines[index] = fmt.Sprintf(`<script src="%s"></script>`, data)
@@ -47,6 +48,7 @@ func arrange(projectDir string) {
 			data, exists := s.Attr("href")
 			if exists {
 				file := filepath.Base(data)
+				fmt.Println(file)
 				s.SetAttr("href", "css/"+file)
 				data, exists := s.Attr("href")
 				lines[index] = fmt.Sprintf(`<link rel="stylesheet" type="text/css" href="%s">`, data)
@@ -56,6 +58,7 @@ func arrange(projectDir string) {
 		})
 
 		// Replace IMG links in HTML
+		// TODO: is the regex necessary here?
 		doc.Find("img[src]").Each(func(i int, s *goquery.Selection) {
 			data, exists := s.Attr("src")
 			if exists {

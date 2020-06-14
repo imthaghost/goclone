@@ -10,6 +10,7 @@ import (
 	"github.com/imthaghost/goclone/parser"
 )
 
+// file extension map for directing files to their proper directory in O(1) time
 var (
 	extensionDir = map[string]string{
 		".css":  "css",
@@ -24,6 +25,7 @@ var (
 
 // Extractor visits a link determines if its a page or sublink
 // downloads the contents to a correct directory in project folder
+// TODO add functionality for determining if page or sublink
 func Extractor(link string, projectPath string) {
 	fmt.Println("Extracting --> ", link)
 
@@ -39,7 +41,7 @@ func Extractor(link string, projectPath string) {
 	base := parser.URLFilename(link)
 	// store the old ext, in special cases the ext is weird ".css?a134fv"
 	oldExt := filepath.Ext(base)
-	// file extension
+	// new file extension
 	ext := parser.URLExtension(link)
 
 	// checks if there was a valid extension
@@ -48,7 +50,7 @@ func Extractor(link string, projectPath string) {
 		// from the extensionDir map
 		dirPath := extensionDir[ext]
 		if dirPath != "" {
-			// If extension and path are valid, move on to writeFileToPath
+			// If extension and path are valid pass to writeFileToPath
 			writeFileToPath(projectPath, base, oldExt, ext, dirPath, resp)
 		}
 	}

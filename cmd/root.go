@@ -9,7 +9,7 @@ import (
 
 var (
 	// Flags
-	Login bool
+	// Login bool // remove login flag for now
 	Serve bool
 	Open  bool
 
@@ -39,7 +39,7 @@ var (
 func Execute() {
 	// Persistent Flags
 	rootCmd.PersistentFlags().BoolVarP(&Open, "open", "o", false, "Automatically open project in deafult browser")
-	rootCmd.PersistentFlags().BoolVarP(&Login, "login", "l", false, "Wether to use a username or password")
+	// rootCmd.PersistentFlags().BoolVarP(&Login, "login", "l", false, "Wether to use a username or password")
 	rootCmd.PersistentFlags().BoolVarP(&Serve, "serve", "s", false, "Serve the generated files using Echo.")
 
 	// Execute the command :)

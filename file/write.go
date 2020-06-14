@@ -6,6 +6,7 @@ import (
 )
 
 // CreateProject initializes the project directory and returns the path to the project
+// TODO make function more modular to obtain different html files
 func CreateProject(projectName string) string {
 	// current workin directory
 	path := currentDirectory()

@@ -8,6 +8,7 @@ import (
 )
 
 // LoginCollector ...
+// TODO determine generic solution for finding login form (username/password and CSRF token)
 func LoginCollector(projectPath string, site string, username string, password string) {
 
 	// csrfTokenSelector := "#main-container > section.content > main > div > div.auth-form.sign-in-form > form > input[type=hidden]:nth-child(2)"
