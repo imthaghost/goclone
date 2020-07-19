@@ -1,11 +1,10 @@
-package tests
+package parser
 
 import (
 	"fmt"
 	"testing"
 
 	"github.com/fatih/color"
-	"github.com/imthaghost/goclone/parser"
 )
 
 func TestURLFilename(t *testing.T) {
@@ -17,7 +16,7 @@ func TestURLFilename(t *testing.T) {
 		{"https://dribbble.com/css/home.css", "home.css"},
 	}
 	for _, table := range tables {
-		result := parser.URLFilename(table.url)
+		result := URLFilename(table.url)
 		expectedresult := table.expected
 		if result != expectedresult {
 			t.Error()
@@ -26,7 +25,7 @@ func TestURLFilename(t *testing.T) {
 
 		} else {
 			green := color.New(color.FgGreen).SprintFunc()
-			fmt.Printf("%s Passing: %s \n", green("[+]"), table.url)
+			fmt.Printf("%s URLFilename Passing: %s \n", green("[+]"), table.url)
 		}
 	}
 }

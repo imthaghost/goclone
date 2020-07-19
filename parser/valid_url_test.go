@@ -1,11 +1,10 @@
-package tests
+package parser
 
 import (
 	"fmt"
 	"testing"
 
 	"github.com/fatih/color"
-	"github.com/imthaghost/goclone/parser"
 )
 
 func TestValidURL(t *testing.T) {
@@ -25,16 +24,16 @@ func TestValidURL(t *testing.T) {
 		{"https://echo.labstack.com/cookbook/auto-tls", true},
 	}
 	for _, table := range tables {
-		result := parser.ValidateURL(table.url)
+		result := ValidateURL(table.url)
 		expectedresult := table.expected
 		if result != expectedresult {
 			t.Error()
 			red := color.New(color.FgRed).SprintFunc()
-			fmt.Printf("%s URLFilename Failed: %s , expected %t got %t \n", red("[-]"), table.url, expectedresult, result)
+			fmt.Printf("%s ValidIRL Failed: %s , expected %t got %t \n", red("[-]"), table.url, expectedresult, result)
 
 		} else {
 			green := color.New(color.FgGreen).SprintFunc()
-			fmt.Printf("%s Passing: %s \n", green("[+]"), table.url)
+			fmt.Printf("%s ValidURL Passing: %s \n", green("[+]"), table.url)
 		}
 	}
 }
