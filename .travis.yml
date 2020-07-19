@@ -8,8 +8,6 @@ install:
     - go get github.com/fatih/color
     - go get github.com/gobwas/glob
     - go get github.com/gocolly/colly
-    - go get github.com/golang/groupcache
-    - go get github.com/golang/protobuf
     - go get github.com/kennygrant/sanitize
     - go get github.com/labstack/echo
     - go get github.com/labstack/gommon
@@ -19,6 +17,7 @@ install:
     - go get github.com/torden/go-strutil
     - go get github.com/valyala/fasttemplate
     - go get github.com/yosssi/gohtml
+    - go get github.com/AlecAivazis/survey
 
 script:
     - go test tests/* -v 
