@@ -64,8 +64,6 @@ go install
 
 ## Examples
 
-###
-
 ```bash
 # goclone <url>
 goclone https://dribbble.com
