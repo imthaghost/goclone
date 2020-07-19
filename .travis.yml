@@ -1,0 +1,28 @@
+language: go
+
+install:
+    - go get github.com/AlecAivazis/survey/v2
+    - go get github.com/PuerkitoBio/goquery
+    - go get github.com/antchfx/htmlquery
+    - go get github.com/antchfx/xmlquery
+    - go get github.com/antchfx/xpath
+    - go get github.com/fatih/color
+    - go get github.com/gobwas/glob
+    - go get github.com/gocolly/colly
+    - go get github.com/golang/groupcache
+    - go get github.com/golang/protobuf
+    - go get github.com/kennygrant/sanitize
+    - go get github.com/labstack/echo
+    - go get github.com/labstack/gommon
+    - go get github.com/saintfish/chardet
+    - go get github.com/spf13/cobra
+    - go get github.com/temoto/robotstxt
+    - go get github.com/torden/go-strutil
+    - go get github.com/valyala/fasttemplate
+    - go get github.com/yosssi/gohtml
+
+script:
+    - go test tests/* -v 
+
+
+
