@@ -12,7 +12,7 @@ Copy websites to your computer! goclone is a utility that allows you to download
 <p align="center">
    <a href="https://goreportcard.com/report/github.com/imthaghost/goclone"><img src="https://goreportcard.com/badge/github.com/imthaghost/goclone"></a>
    <a href="https://travis-ci.org/imthaghost/goclone.svg?branch=master"><img src="https://travis-ci.org/imthaghost/goclone.svg?branch=master"></a>
-   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
+   <a href="https://github.com/imthaghost/goclone/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
 </p>
 <br>
 
