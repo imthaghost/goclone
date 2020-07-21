@@ -57,7 +57,7 @@ go install
 
 ## Todo
 
-Visit the notion link [here](https://www.notion.so/0f3cb918168b48ffa5072c6ee39281ee?v=5330c26bd2d747dfac07882347b4a1df) to view Goclone's feature/bug progress.
+Visit the <b>Notion</b> link [here](https://www.notion.so/0f3cb918168b48ffa5072c6ee39281ee?v=5330c26bd2d747dfac07882347b4a1df) to view Goclone's feature/bug progress.
 
 ![Notion](/docs/media/progress.png)
 
