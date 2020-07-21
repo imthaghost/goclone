@@ -21,12 +21,18 @@ Copy websites to your computer! goclone is a utility that allows you to download
 ## Table of Contents
 
 -   [Installation](#installation)
--   [Todo](#Todo)
+  - [Brew](#brew)
+  - [Manual](#manual)
+-   [Todo](#todo)
 -   [Examples](#examples)
 -   [License](#license)
 -   [Contributors](#contributors)
 
+<a name="installation"></a>
+
 ## 🚀 Installation
+
+<a name="brew"></a>
 
 ### Brew
 
@@ -36,6 +42,7 @@ brew tap imthaghost/goclone
 # install tool
 brew install goclone
 ```
+<a name="manual"></a>
 
 ### Manual
 
@@ -47,6 +54,7 @@ cd $GOPATH/src/github.com/imthaghost/goclone
 # build and install application
 go install
 ```
+<a name="todo"></a>
 
 ## Todo
 
@@ -62,6 +70,8 @@ go install
 -   [ ] Clone site that sits behind authentication wall
 -   [ ] User specified depth of clone
 
+<a name="examples"></a>
+
 ## Examples
 
 ```bash
@@ -71,11 +81,15 @@ goclone https://dribbble.com
 
 ![Dribbble](/docs/media/dribbble.gif)
 
+<a name="license"></a>
+
 ## 📝 License
 
 By contributing, you agree that your contributions will be licensed under its MIT License.
 
 In short, when you submit code changes, your submissions are understood to be under the same [MIT License](http://choosealicense.com/licenses/mit/) that covers the project. Feel free to contact the maintainers if that's a concern.
+
+<a name="contributors"></a>
 
 ## Contributors
 
