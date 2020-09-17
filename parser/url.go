@@ -45,7 +45,7 @@ func CreateURL(domain string) string {
 		<<< https://google.com - Returned URL
 	*/
 
-	// concatenate https:// and the valid domain and return the now valid url
+	// concate nate https:// and the valid domain and return the now valid url
 	return "https://" + domain
 }
 

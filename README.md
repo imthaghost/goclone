@@ -7,7 +7,7 @@
 Copy websites to your computer! Goclone is a utility that allows you to download a website from the Internet to a local directory. Get html, css, js, images, and other files from the server to your computer. Goclone arranges the original site's relative link-structure. Simply open a page of the "mirrored" website in your browser, and you can browse the site from link to link as if you were viewing it online.
 </p>
 <br>
-<p align="center"><a href="https://goclone.app.imthaghost.dev/">Official Website</a></p>
+<p align="center"><a href="https://goclone.imthaghost.dev/">Official Website</a></p>
 <br>
 <p align="center">
    <a href="https://goreportcard.com/report/github.com/imthaghost/goclone"><img src="https://goreportcard.com/badge/github.com/imthaghost/goclone"></a>
@@ -66,7 +66,7 @@ Visit the <b>Notion</b> link [here](https://www.notion.so/0f3cb918168b48ffa5072c
 ## Examples
 
 ```bash
-# goclone <url>
+# goclone <url> 
 goclone https://dribbble.com
 ```
 
