@@ -3,3 +3,4 @@
 .env
 pkg/parser/domains.csv
 dist
+.idea/
