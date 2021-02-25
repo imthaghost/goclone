@@ -19,7 +19,7 @@ install:
     - go get github.com/AlecAivazis/survey
 
 script:
-    - go test parser/* -v 
+    - go test pkg/parser/* -v
 
 
 
