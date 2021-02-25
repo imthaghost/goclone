@@ -1,10 +1,8 @@
-package cmd
+package goclone
 
 import (
-	"log"
-	"os"
-
 	"github.com/spf13/cobra"
+	"log"
 )
 
 var (
@@ -45,6 +43,5 @@ func Execute() {
 	// Execute the command :)
 	if err := rootCmd.Execute(); err != nil {
 		log.Fatal(err)
-		os.Exit(1)
 	}
 }

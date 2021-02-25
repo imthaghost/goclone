@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://goclone.herokuapp.com/">
-    <img alt="jedi" src="docs/media/logo.png"> 
+    <img alt="jedi" src="pkg/docs/media/logo.png"> 
   </a>
 </p>
 <p align="center">
@@ -16,7 +16,7 @@ Copy websites to your computer! Goclone is a utility that allows you to download
 </p>
 <br>
 
-![Example](/docs/media/colab.gif)
+![Example](/pkg/docs/media/colab.gif)
 
 ## Table of Contents
 - [Installation](#installation)
@@ -59,7 +59,7 @@ go install
 
 Visit the <b>Notion</b> link [here](https://www.notion.so/0f3cb918168b48ffa5072c6ee39281ee?v=5330c26bd2d747dfac07882347b4a1df) to view Goclone's feature/bug progress.
 
-![Notion](/docs/media/progress.png)
+![Notion](/pkg/docs/media/progress.png)
 
 <a name="examples"></a>
 
@@ -70,7 +70,7 @@ Visit the <b>Notion</b> link [here](https://www.notion.so/0f3cb918168b48ffa5072c
 goclone https://dribbble.com
 ```
 
-![Dribbble](/docs/media/dribbble.gif)
+![Dribbble](/pkg/docs/media/dribbble.gif)
 
 <a name="license"></a>
 

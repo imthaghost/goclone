@@ -1,14 +1,15 @@
-package cmd
+package goclone
 
 import (
 	"fmt"
+
 	"os/exec"
 
-	"github.com/imthaghost/goclone/crawler"
-	"github.com/imthaghost/goclone/file"
-	"github.com/imthaghost/goclone/html"
-	"github.com/imthaghost/goclone/parser"
-	"github.com/imthaghost/goclone/server"
+	"github.com/imthaghost/goclone/pkg/crawler"
+	"github.com/imthaghost/goclone/pkg/file"
+	"github.com/imthaghost/goclone/pkg/html"
+	"github.com/imthaghost/goclone/pkg/parser"
+	"github.com/imthaghost/goclone/pkg/server"
 )
 
 // Clone the given site :)
@@ -23,33 +24,33 @@ func cloneSite(args []string) {
 			// use the domain as the project name
 			name := url
 			// CreateProject
-			projectpath := file.CreateProject(name)
+			projectPath := file.CreateProject(name)
 			// create the url
 			validURL := parser.CreateURL(name)
 			// Crawler
-			crawler.Crawl(validURL, projectpath)
+			crawler.Crawl(validURL, projectPath)
 			// Restructure html
-			html.LinkRestructure(projectpath)
+			html.LinkRestructure(projectPath)
 			err := exec.Command("open", "http://localhost:5000").Start()
 			if err != nil {
 				panic(err)
 			}
-			server.Serve(projectpath)
+			server.Serve(projectPath)
 
 		} else if parser.ValidateURL(url) {
 			// get the hostname
 			name := parser.GetDomain(url)
 			// create project
-			projectpath := file.CreateProject(name)
+			projectPath := file.CreateProject(name)
 			// Crawler
-			crawler.Crawl(url, projectpath)
+			crawler.Crawl(url, projectPath)
 			// Restructure html
-			html.LinkRestructure(projectpath)
+			html.LinkRestructure(projectPath)
 			err := exec.Command("open", "http://localhost:5000").Start()
 			if err != nil {
 				panic(err)
 			}
-			server.Serve(projectpath)
+			server.Serve(projectPath)
 		} else {
 			fmt.Print(url)
 		}
@@ -61,16 +62,16 @@ func cloneSite(args []string) {
 			// use the domain as the project name
 			name := url
 			// CreateProject
-			projectpath := file.CreateProject(name)
+			projectPath := file.CreateProject(name)
 			// create the url
 			validURL := parser.CreateURL(name)
 			// Crawler
-			crawler.Crawl(validURL, projectpath)
+			crawler.Crawl(validURL, projectPath)
 			// Restructure html
-			html.LinkRestructure(projectpath)
+			html.LinkRestructure(projectPath)
 			if Open {
 				// automatically open project
-				err := exec.Command("open", projectpath+"/index.html").Start()
+				err := exec.Command("open", projectPath+"/index.html").Start()
 				if err != nil {
 					panic(err)
 				}
@@ -80,13 +81,13 @@ func cloneSite(args []string) {
 			// get the hostname
 			name := parser.GetDomain(url)
 			// create project
-			projectpath := file.CreateProject(name)
+			projectPath := file.CreateProject(name)
 			// Crawler
-			crawler.Crawl(url, projectpath)
+			crawler.Crawl(url, projectPath)
 			// Restructure html
-			html.LinkRestructure(projectpath)
+			html.LinkRestructure(projectPath)
 			if Open {
-				err := exec.Command("open", projectpath+"/index.html").Start()
+				err := exec.Command("open", projectPath+"/index.html").Start()
 				if err != nil {
 					panic(err)
 				}

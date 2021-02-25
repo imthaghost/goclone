@@ -7,7 +7,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/imthaghost/goclone/parser"
+	"github.com/imthaghost/goclone/pkg/parser"
 )
 
 // file extension map for directing files to their proper directory in O(1) time
