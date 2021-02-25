@@ -16,7 +16,7 @@ Copy websites to your computer! Goclone is a utility that allows you to download
 </p>
 <br>
 
-![Example](/docs/media/colab.gif)
+![Example](/docs/media/config.gif)
 
 ## Table of Contents
 - [Installation](#installation)
@@ -70,7 +70,7 @@ Visit the <b>Notion</b> link [here](https://www.notion.so/0f3cb918168b48ffa5072c
 goclone https://dribbble.com
 ```
 
-![Dribbble](/docs/media/tree.gif)
+![Dribbble](/docs/media/dribbble.gif)
 
 <a name="license"></a>
 
