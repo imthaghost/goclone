@@ -12,7 +12,6 @@ install:
     - go get github.com/labstack/echo
     - go get github.com/labstack/gommon
     - go get github.com/saintfish/chardet
-    - go get github.com/spf13/cobra
     - go get github.com/temoto/robotstxt
     - go get github.com/torden/go-strutil
     - go get github.com/valyala/fasttemplate
