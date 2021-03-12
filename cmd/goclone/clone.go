@@ -3,10 +3,10 @@ package main
 import (
 	"context"
 	"fmt"
-	"mime"
 	"net/http"
 	"net/http/cookiejar"
 	"net/url"
+	"strings"
 
 	"os/exec"
 
@@ -27,11 +27,14 @@ func cloneSite(ctx context.Context, args, cookies []string) error {
 	if len(cookies) != 0 {
 		cs = make([]*http.Cookie, 0, len(cookies))
 		for _, c := range cookies {
-			_, params, err := mime.ParseMediaType("cookie; " + c)
-			if err != nil {
-				return fmt.Errorf("cookie %q: %w", c, err)
-			}
-			for k, v := range params {
+			ff := strings.Fields(c)
+			for _, f := range ff {
+				var k, v string
+				if i := strings.IndexByte(f, '='); i >= 0 {
+					k, v = f[:i], strings.TrimRight(f[i+1:], ";")
+				} else {
+					return fmt.Errorf("No = in cookie %q", c)
+				}
 				cs = append(cs, &http.Cookie{Name: k, Value: v})
 			}
 		}
