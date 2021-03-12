@@ -1,4 +1,4 @@
-package goclone
+package main
 
 import (
 	"fmt"

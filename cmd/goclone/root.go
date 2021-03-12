@@ -1,8 +1,9 @@
-package goclone
+package main
 
 import (
-	"github.com/spf13/cobra"
 	"log"
+
+	"github.com/spf13/cobra"
 )
 
 var (
