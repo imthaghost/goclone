@@ -1,19 +1,20 @@
 package crawler
 
 import (
+	"context"
 	"fmt"
+	"net/http"
+	"net/http/cookiejar"
 
 	"github.com/gocolly/colly"
 )
 
 // Collector searches for css, js, and images within a given link
 // TODO improve for better performance
-func Collector(url string, projectPath string) {
+func Collector(ctx context.Context, url string, projectPath string, collyOpts ...func(*colly.Collector)) error {
 	// create a new collector
-	c := colly.NewCollector(
-		// asychronus boolean
-		colly.Async(true),
-	)
+	c := colly.NewCollector(append(collyOpts, colly.Async(true))...)
+	c.WithTransport(cancelableTransport{ctx: ctx, transport: http.DefaultTransport})
 
 	// search for all link tags that have a rel attribute that is equal to stylesheet - CSS
 	c.OnHTML("link[rel='stylesheet']", func(e *colly.HTMLElement) {
@@ -54,6 +55,26 @@ func Collector(url string, projectPath string) {
 	})
 
 	// Visit each url and wait for stuff to load :)
-	c.Visit(url)
+	if err := c.Visit(url); err != nil {
+		return err
+	}
 	c.Wait()
+	return nil
+}
+
+// SetCookieJar returns a colly.Collector option that sets the cookie jar to the specified.
+func SetCookieJar(jar *cookiejar.Jar) func(*colly.Collector) {
+	return func(c *colly.Collector) { c.SetCookieJar(jar) }
+}
+
+type cancelableTransport struct {
+	ctx       context.Context
+	transport http.RoundTripper
+}
+
+func (t cancelableTransport) RoundTrip(req *http.Request) (*http.Response, error) {
+	if err := t.ctx.Err(); err != nil {
+		return nil, err
+	}
+	return t.transport.RoundTrip(req.WithContext(t.ctx))
 }
