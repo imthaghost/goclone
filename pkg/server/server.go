@@ -6,7 +6,7 @@ import (
 )
 
 // Serve ...
-func Serve(projectPath string) {
+func Serve(projectPath string) error {
 	e := echo.New()
 	// Log Output
 	e.Use(middleware.Logger())
@@ -20,6 +20,5 @@ func Serve(projectPath string) {
 	e.Static("/", projectPath)
 	e.File("/", projectPath)
 
-	e.Logger.Fatal(e.Start(":5000"))
-
+	return e.Start(":5000")
 }

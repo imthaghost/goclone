@@ -1,7 +1,12 @@
-package goclone
+package main
 
 import (
+	"context"
 	"fmt"
+	"net/http"
+	"net/http/cookiejar"
+	"net/url"
+	"strings"
 
 	"os/exec"
 
@@ -13,87 +18,73 @@ import (
 )
 
 // Clone the given site :)
-func cloneSite(args []string) {
-	url := args[0]
-
-	if Serve == true {
-		// grab the url from the
-		if !parser.ValidateURL(url) && !parser.ValidateDomain(url) {
-			fmt.Println("goclone <url>")
-		} else if parser.ValidateDomain(url) {
-			// use the domain as the project name
-			name := url
-			// CreateProject
-			projectPath := file.CreateProject(name)
-			// create the url
-			validURL := parser.CreateURL(name)
-			// Crawler
-			crawler.Crawl(validURL, projectPath)
-			// Restructure html
-			html.LinkRestructure(projectPath)
-			err := exec.Command("open", "http://localhost:5000").Start()
-			if err != nil {
-				panic(err)
+func cloneSite(ctx context.Context, args, cookies []string) error {
+	jar, err := cookiejar.New(&cookiejar.Options{})
+	if err != nil {
+		return err
+	}
+	var cs []*http.Cookie
+	if len(cookies) != 0 {
+		cs = make([]*http.Cookie, 0, len(cookies))
+		for _, c := range cookies {
+			ff := strings.Fields(c)
+			for _, f := range ff {
+				var k, v string
+				if i := strings.IndexByte(f, '='); i >= 0 {
+					k, v = f[:i], strings.TrimRight(f[i+1:], ";")
+				} else {
+					return fmt.Errorf("No = in cookie %q", c)
+				}
+				cs = append(cs, &http.Cookie{Name: k, Value: v})
 			}
-			server.Serve(projectPath)
-
-		} else if parser.ValidateURL(url) {
-			// get the hostname
-			name := parser.GetDomain(url)
-			// create project
-			projectPath := file.CreateProject(name)
-			// Crawler
-			crawler.Crawl(url, projectPath)
-			// Restructure html
-			html.LinkRestructure(projectPath)
-			err := exec.Command("open", "http://localhost:5000").Start()
-			if err != nil {
-				panic(err)
-			}
-			server.Serve(projectPath)
-		} else {
-			fmt.Print(url)
 		}
-	} else {
-		// grab the url from the
-		if !parser.ValidateURL(url) && !parser.ValidateDomain(url) {
-			fmt.Println("goclone <url>")
-		} else if parser.ValidateDomain(url) {
-			// use the domain as the project name
-			name := url
-			// CreateProject
-			projectPath := file.CreateProject(name)
-			// create the url
-			validURL := parser.CreateURL(name)
-			// Crawler
-			crawler.Crawl(validURL, projectPath)
-			// Restructure html
-			html.LinkRestructure(projectPath)
-			if Open {
-				// automatically open project
-				err := exec.Command("open", projectPath+"/index.html").Start()
-				if err != nil {
-					panic(err)
-				}
+		for _, a := range args {
+			u, err := url.Parse(a)
+			if err != nil {
+				return fmt.Errorf("%q: %w", a, err)
 			}
-
-		} else if parser.ValidateURL(url) {
-			// get the hostname
-			name := parser.GetDomain(url)
-			// create project
-			projectPath := file.CreateProject(name)
-			// Crawler
-			crawler.Crawl(url, projectPath)
-			// Restructure html
-			html.LinkRestructure(projectPath)
-			if Open {
-				err := exec.Command("open", projectPath+"/index.html").Start()
-				if err != nil {
-					panic(err)
-				}
-			}
-		} else {
-			fmt.Print(url)
+			jar.SetCookies(&url.URL{Scheme: u.Scheme, User: u.User, Host: u.Host}, cs)
 		}
 	}
+
+	var firstProject string
+	for _, u := range args {
+		isValid, isValidDomain := parser.ValidateURL(u), parser.ValidateDomain(u)
+		if !isValid && !isValidDomain {
+			return fmt.Errorf("%q is not valid", u)
+		}
+		name := u
+		if isValidDomain {
+			u = parser.CreateURL(name)
+		} else {
+			name = parser.GetDomain(u)
+		}
+		projectPath := file.CreateProject(name)
+		if firstProject == "" {
+			firstProject = projectPath
+		}
+
+		if err := crawler.Crawl(ctx, u, projectPath, crawler.SetCookieJar(jar)); err != nil {
+			return fmt.Errorf("%q: %w", u, err)
+		}
+		// Restructure html
+		if err := html.LinkRestructure(projectPath); err != nil {
+			return fmt.Errorf("%q: %w", projectPath, err)
+		}
+
+	}
+	if Serve {
+		cmd := exec.CommandContext(ctx, "open", "http://localhost:5000")
+		if err := cmd.Start(); err != nil {
+			return fmt.Errorf("%v: %w", cmd.Args, err)
+		}
+		return server.Serve(firstProject)
+	} else if Open {
+		// automatically open project
+		cmd := exec.CommandContext(ctx, "open", firstProject+"/index.html")
+		if err := cmd.Start(); err != nil {
+			return fmt.Errorf("%v: %w", cmd.Args, err)
+		}
+	}
+	return nil
 }

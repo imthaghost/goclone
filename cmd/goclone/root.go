@@ -1,15 +1,20 @@
-package goclone
+package main
 
 import (
-	"github.com/spf13/cobra"
+	"context"
 	"log"
+	"os"
+	"os/signal"
+
+	"github.com/spf13/cobra"
 )
 
 var (
 	// Flags
 	// Login bool // remove login flag for now
-	Serve bool
-	Open  bool
+	Serve   bool
+	Open    bool
+	cookies []string
 
 	// Root cmd
 	rootCmd = &cobra.Command{
@@ -27,8 +32,12 @@ var (
 				return
 			}
 
+			ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
+			defer stop()
 			// Otherwise.. clone ahead!
-			cloneSite(args)
+			if err := cloneSite(ctx, args, cookies); err != nil {
+				log.Fatalf("%+v", err)
+			}
 		},
 	}
 )
@@ -36,9 +45,11 @@ var (
 // Execute the clone command
 func Execute() {
 	// Persistent Flags
-	rootCmd.PersistentFlags().BoolVarP(&Open, "open", "o", false, "Automatically open project in deafult browser")
+	pf := rootCmd.PersistentFlags()
+	pf.BoolVarP(&Open, "open", "o", false, "Automatically open project in deafult browser")
 	// rootCmd.PersistentFlags().BoolVarP(&Login, "login", "l", false, "Wether to use a username or password")
-	rootCmd.PersistentFlags().BoolVarP(&Serve, "serve", "s", false, "Serve the generated files using Echo.")
+	pf.BoolVarP(&Serve, "serve", "s", false, "Serve the generated files using Echo.")
+	rootCmd.Flags().StringSliceVarP(&cookies, "cookie", "C", nil, "Pre-set these cookies")
 
 	// Execute the command :)
 	if err := rootCmd.Execute(); err != nil {
