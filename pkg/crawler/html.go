@@ -10,7 +10,8 @@ import (
 // HTMLExtractor ...
 func HTMLExtractor(link string, projectPath string) {
 	fmt.Println("Extracting --> ", link)
-
+	
+	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 	// get the html body
 	resp, err := http.Get(link)
 	if err != nil {
