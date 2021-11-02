@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"crypto/tls"
 )
 
 // HTMLExtractor ...
