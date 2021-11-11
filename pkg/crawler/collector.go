@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/cookiejar"
+	"strings"
 
 	"github.com/gocolly/colly"
 )
@@ -40,6 +41,9 @@ func Collector(ctx context.Context, url string, projectPath string, collyOpts ..
 	c.OnHTML("img[src]", func(e *colly.HTMLElement) {
 		// src attribute
 		link := e.Attr("src")
+		if strings.Contains(link, "data:image") {
+			return
+		}
 		// Print link
 		fmt.Println("Img found", "-->", link)
 		// extraction
