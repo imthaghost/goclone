@@ -12,9 +12,10 @@ import (
 var (
 	// Flags
 	// Login bool // remove login flag for now
-	Serve   bool
-	Open    bool
-	cookies []string
+	Serve       bool
+	Open        bool
+	ProxyString string
+	Cookies     []string
 
 	// Root cmd
 	rootCmd = &cobra.Command{
@@ -35,7 +36,7 @@ var (
 			ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
 			defer stop()
 			// Otherwise.. clone ahead!
-			if err := cloneSite(ctx, args, cookies); err != nil {
+			if err := cloneSite(ctx, args); err != nil {
 				log.Fatalf("%+v", err)
 			}
 		},
@@ -49,7 +50,8 @@ func Execute() {
 	pf.BoolVarP(&Open, "open", "o", false, "Automatically open project in deafult browser")
 	// rootCmd.PersistentFlags().BoolVarP(&Login, "login", "l", false, "Wether to use a username or password")
 	pf.BoolVarP(&Serve, "serve", "s", false, "Serve the generated files using Echo.")
-	rootCmd.Flags().StringSliceVarP(&cookies, "cookie", "C", nil, "Pre-set these cookies")
+	pf.StringVarP(&ProxyString, "proxy_string", "p", "", "Proxy connection string. Support http and socks5 https://pkg.go.dev/github.com/gocolly/colly#Collector.SetProxy")
+	rootCmd.Flags().StringSliceVarP(&Cookies, "cookie", "C", nil, "Pre-set these cookies")
 
 	// Execute the command :)
 	if err := rootCmd.Execute(); err != nil {

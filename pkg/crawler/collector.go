@@ -7,15 +7,24 @@ import (
 	"net/http/cookiejar"
 	"strings"
 
-	"github.com/gocolly/colly"
+	"github.com/gocolly/colly/v2"
 )
 
 // Collector searches for css, js, and images within a given link
 // TODO improve for better performance
-func Collector(ctx context.Context, url string, projectPath string, collyOpts ...func(*colly.Collector)) error {
+func Collector(ctx context.Context, url string, projectPath string, cookieJar *cookiejar.Jar, proxyString string) error {
 	// create a new collector
-	c := colly.NewCollector(append(collyOpts, colly.Async(true))...)
-	c.WithTransport(cancelableTransport{ctx: ctx, transport: http.DefaultTransport})
+	//c := colly.NewCollector()
+
+	c := colly.NewCollector(colly.Async(true))
+	if cookieJar != nil {
+		c.SetCookieJar(cookieJar)
+	}
+	if proxyString != "" {
+		c.SetProxy(proxyString)
+	} else {
+		c.WithTransport(cancelableTransport{ctx: ctx, transport: http.DefaultTransport})
+	}
 
 	// search for all link tags that have a rel attribute that is equal to stylesheet - CSS
 	c.OnHTML("link[rel='stylesheet']", func(e *colly.HTMLElement) {
@@ -64,11 +73,6 @@ func Collector(ctx context.Context, url string, projectPath string, collyOpts ..
 	}
 	c.Wait()
 	return nil
-}
-
-// SetCookieJar returns a colly.Collector option that sets the cookie jar to the specified.
-func SetCookieJar(jar *cookiejar.Jar) func(*colly.Collector) {
-	return func(c *colly.Collector) { c.SetCookieJar(jar) }
 }
 
 type cancelableTransport struct {

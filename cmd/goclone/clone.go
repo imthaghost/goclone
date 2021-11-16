@@ -18,15 +18,15 @@ import (
 )
 
 // Clone the given site :)
-func cloneSite(ctx context.Context, args, cookies []string) error {
+func cloneSite(ctx context.Context, args []string) error {
 	jar, err := cookiejar.New(&cookiejar.Options{})
 	if err != nil {
 		return err
 	}
 	var cs []*http.Cookie
-	if len(cookies) != 0 {
-		cs = make([]*http.Cookie, 0, len(cookies))
-		for _, c := range cookies {
+	if len(Cookies) != 0 {
+		cs = make([]*http.Cookie, 0, len(Cookies))
+		for _, c := range Cookies {
 			ff := strings.Fields(c)
 			for _, f := range ff {
 				var k, v string
@@ -64,7 +64,7 @@ func cloneSite(ctx context.Context, args, cookies []string) error {
 			firstProject = projectPath
 		}
 
-		if err := crawler.Crawl(ctx, u, projectPath, crawler.SetCookieJar(jar)); err != nil {
+		if err := crawler.Crawl(ctx, u, projectPath, jar, ProxyString); err != nil {
 			return fmt.Errorf("%q: %w", u, err)
 		}
 		// Restructure html
