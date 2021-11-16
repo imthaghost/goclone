@@ -75,20 +75,6 @@ func Collector(ctx context.Context, url string, projectPath string, cookieJar *c
 	return nil
 }
 
-// SetCookieJar returns a colly.Collector option that sets the cookie jar to the specified.
-func SetCookieJar(jar *cookiejar.Jar) func(*colly.Collector) *colly.Collector {
-	var C colly.Collector
-	C.SetCookieJar(jar)
-	return func(*colly.Collector) *colly.Collector { return &C }
-}
-
-// SetCookieJar returns a colly.Collector option that sets the cookie jar to the specified.
-func SetProxy(proxy string) func(*colly.Collector) *colly.Collector {
-	var C colly.Collector
-	C.SetProxy(proxy)
-	return func(*colly.Collector) *colly.Collector { return &C }
-}
-
 type cancelableTransport struct {
 	ctx       context.Context
 	transport http.RoundTripper
