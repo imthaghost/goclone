@@ -41,7 +41,7 @@ func Collector(ctx context.Context, url string, projectPath string, collyOpts ..
 	c.OnHTML("img[src]", func(e *colly.HTMLElement) {
 		// src attribute
 		link := e.Attr("src")
-		if strings.HasPrefix(link, "data:image") {
+		if strings.HasPrefix(link, "data:image") || strings.HasPrefix(link, "blob:") {
 			return
 		}
 		// Print link
