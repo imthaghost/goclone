@@ -14,9 +14,8 @@ import (
 // TODO improve for better performance
 func Collector(ctx context.Context, url string, projectPath string, cookieJar *cookiejar.Jar, proxyString string) error {
 	// create a new collector
-	//c := colly.NewCollector()
-
 	c := colly.NewCollector(colly.Async(true))
+
 	if cookieJar != nil {
 		c.SetCookieJar(cookieJar)
 	}
