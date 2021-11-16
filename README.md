@@ -19,13 +19,14 @@ Copy websites to your computer! Goclone is a utility that allows you to download
 ![Example](/docs/media/config.gif)
 
 ## Table of Contents
+
 - [Installation](#installation)
   - [Brew](#brew)
   - [Manual](#manual)
--   [Todo](#todo)
--   [Examples](#examples)
--   [License](#license)
--   [Contributors](#contributors)
+- [Todo](#todo)
+- [Examples](#examples)
+- [License](#license)
+- [Contributors](#contributors)
 
 <a name="installation"></a>
 
@@ -41,6 +42,7 @@ brew tap imthaghost/goclone
 # install tool
 brew install goclone
 ```
+
 <a name="manual"></a>
 
 ### Manual
@@ -53,6 +55,7 @@ cd $GOPATH/src/github.com/imthaghost/goclone/cmd/goclone
 # build and install application
 go install
 ```
+
 <a name="todo"></a>
 
 ## Todo
@@ -66,11 +69,26 @@ Visit the <b>Notion</b> link [here](https://www.notion.so/0f3cb918168b48ffa5072c
 ## Examples
 
 ```bash
-# goclone <url> 
+# goclone <url>
 goclone https://dribbble.com
 ```
 
 ![Dribbble](/docs/media/dribbble.gif)
+
+## Usage
+
+```
+Usage:
+  goclone <url> [flags]
+
+Flags:
+  -C, --cookie strings        Pre-set these cookies
+  -h, --help                  help for goclone
+  -o, --open                  Automatically open project in deafult browser
+  -p, --proxy_string string   Proxy connection string. Support http and socks5 https://pkg.go.dev/github.com/gocolly/colly#Collector.SetProxy
+  -s, --serve                 Serve the generated files using Echo.
+  -u, --user_agent string     Custom User Agent
+```
 
 <a name="license"></a>
 
