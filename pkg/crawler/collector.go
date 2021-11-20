@@ -5,16 +5,17 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/cookiejar"
+	"strings"
 
-	"github.com/gocolly/colly"
+	"github.com/gocolly/colly/v2"
 )
 
 // Collector searches for css, js, and images within a given link
 // TODO improve for better performance
-func Collector(ctx context.Context, url string, projectPath string, collyOpts ...func(*colly.Collector)) error {
+func Collector(ctx context.Context, url string, projectPath string, cookieJar *cookiejar.Jar, proxyString string, userAgent string) error {
 	// create a new collector
-	c := colly.NewCollector(append(collyOpts, colly.Async(true))...)
-	c.WithTransport(cancelableTransport{ctx: ctx, transport: http.DefaultTransport})
+	c := colly.NewCollector(colly.Async(true))
+	setUpCollector(c, ctx, cookieJar, proxyString, userAgent)
 
 	// search for all link tags that have a rel attribute that is equal to stylesheet - CSS
 	c.OnHTML("link[rel='stylesheet']", func(e *colly.HTMLElement) {
@@ -40,6 +41,9 @@ func Collector(ctx context.Context, url string, projectPath string, collyOpts ..
 	c.OnHTML("img[src]", func(e *colly.HTMLElement) {
 		// src attribute
 		link := e.Attr("src")
+		if strings.HasPrefix(link, "data:image") || strings.HasPrefix(link, "blob:") {
+			return
+		}
 		// Print link
 		fmt.Println("Img found", "-->", link)
 		// extraction
@@ -62,11 +66,6 @@ func Collector(ctx context.Context, url string, projectPath string, collyOpts ..
 	return nil
 }
 
-// SetCookieJar returns a colly.Collector option that sets the cookie jar to the specified.
-func SetCookieJar(jar *cookiejar.Jar) func(*colly.Collector) {
-	return func(c *colly.Collector) { c.SetCookieJar(jar) }
-}
-
 type cancelableTransport struct {
 	ctx       context.Context
 	transport http.RoundTripper
@@ -77,4 +76,18 @@ func (t cancelableTransport) RoundTrip(req *http.Request) (*http.Response, error
 		return nil, err
 	}
 	return t.transport.RoundTrip(req.WithContext(t.ctx))
+}
+
+func setUpCollector(c *colly.Collector, ctx context.Context, cookieJar *cookiejar.Jar, proxyString, userAgent string) {
+	if cookieJar != nil {
+		c.SetCookieJar(cookieJar)
+	}
+	if proxyString != "" {
+		c.SetProxy(proxyString)
+	} else {
+		c.WithTransport(cancelableTransport{ctx: ctx, transport: http.DefaultTransport})
+	}
+	if userAgent != "" {
+		c.UserAgent = userAgent
+	}
 }
