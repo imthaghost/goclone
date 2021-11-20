@@ -12,18 +12,10 @@ import (
 
 // Collector searches for css, js, and images within a given link
 // TODO improve for better performance
-func Collector(ctx context.Context, url string, projectPath string, cookieJar *cookiejar.Jar, proxyString string) error {
+func Collector(ctx context.Context, url string, projectPath string, cookieJar *cookiejar.Jar, proxyString string, userAgent string) error {
 	// create a new collector
 	c := colly.NewCollector(colly.Async(true))
-
-	if cookieJar != nil {
-		c.SetCookieJar(cookieJar)
-	}
-	if proxyString != "" {
-		c.SetProxy(proxyString)
-	} else {
-		c.WithTransport(cancelableTransport{ctx: ctx, transport: http.DefaultTransport})
-	}
+	setUpCollector(c, ctx, cookieJar, proxyString, userAgent)
 
 	// search for all link tags that have a rel attribute that is equal to stylesheet - CSS
 	c.OnHTML("link[rel='stylesheet']", func(e *colly.HTMLElement) {
@@ -84,4 +76,18 @@ func (t cancelableTransport) RoundTrip(req *http.Request) (*http.Response, error
 		return nil, err
 	}
 	return t.transport.RoundTrip(req.WithContext(t.ctx))
+}
+
+func setUpCollector(c *colly.Collector, ctx context.Context, cookieJar *cookiejar.Jar, proxyString, userAgent string) {
+	if cookieJar != nil {
+		c.SetCookieJar(cookieJar)
+	}
+	if proxyString != "" {
+		c.SetProxy(proxyString)
+	} else {
+		c.WithTransport(cancelableTransport{ctx: ctx, transport: http.DefaultTransport})
+	}
+	if userAgent != "" {
+		c.UserAgent = userAgent
+	}
 }

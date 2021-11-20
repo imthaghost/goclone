@@ -12,10 +12,9 @@ import (
 var (
 	// Flags
 	// Login bool // remove login flag for now
-	Serve       bool
-	Open        bool
-	ProxyString string
-	Cookies     []string
+	Serve, Open            bool
+	ProxyString, UserAgent string
+	Cookies                []string
 
 	// Root cmd
 	rootCmd = &cobra.Command{
@@ -51,6 +50,7 @@ func Execute() {
 	// rootCmd.PersistentFlags().BoolVarP(&Login, "login", "l", false, "Wether to use a username or password")
 	pf.BoolVarP(&Serve, "serve", "s", false, "Serve the generated files using Echo.")
 	pf.StringVarP(&ProxyString, "proxy_string", "p", "", "Proxy connection string. Support http and socks5 https://pkg.go.dev/github.com/gocolly/colly#Collector.SetProxy")
+	pf.StringVarP(&UserAgent, "user_agent", "u", "", "Custom User Agent")
 	rootCmd.Flags().StringSliceVarP(&Cookies, "cookie", "C", nil, "Pre-set these cookies")
 
 	// Execute the command :)

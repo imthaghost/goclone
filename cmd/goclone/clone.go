@@ -64,7 +64,7 @@ func cloneSite(ctx context.Context, args []string) error {
 			firstProject = projectPath
 		}
 
-		if err := crawler.Crawl(ctx, u, projectPath, jar, ProxyString); err != nil {
+		if err := crawler.Crawl(ctx, u, projectPath, jar, ProxyString, UserAgent); err != nil {
 			return fmt.Errorf("%q: %w", u, err)
 		}
 		// Restructure html
