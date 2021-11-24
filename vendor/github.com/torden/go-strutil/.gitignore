@@ -1,0 +1,11 @@
+*.swp
+*.coverprofile
+*.swp
+*.core
+*.html
+*.prof
+*.test
+*.report
+report/
+vendor/
+tt.go

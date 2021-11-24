@@ -1,0 +1,32 @@
+sudo: false
+language: go
+dist: xenial
+go:
+    - 1.12.x
+    - 1.11.x
+    - 1.10.x
+    - 1.9.x
+    - 1.8.x
+    - 1.7.x
+    - 1.6.x
+    - 1.5.x
+    - 1.4.x
+#    - tip
+before_install:
+    - go get github.com/mattn/goveralls
+    - go get golang.org/x/tools/cmd/cover
+    - go get github.com/mattn/goveralls
+    - go get github.com/modocache/gover
+    - go get github.com/dustin/go-humanize
+
+before_script:
+    - go fmt ./...
+after_success:
+    - bash <(curl -s https://codecov.io/bash)
+script:
+    - make test
+    - make coveralls
+matrix:
+    allow_failures:
+        - go: tip
+          fast_finish: true

@@ -1,0 +1,3 @@
+theme: jekyll-theme-cayman
+title: Just! a String Processing Library for Go-lang
+description: Just a few methods for helping processing and validation the string
