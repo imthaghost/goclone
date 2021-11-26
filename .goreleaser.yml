@@ -17,7 +17,7 @@ builds:
     - env:
           - CGO_ENABLED=0
       # your entrypoint into your application
-      main: ./main.go
+      main: ./cmd/goclone/main.go
       # the name of the binary that you want to generate - this will also be the binary name for when we get to homebrew...
       # Example: goclone <url> where goclone is the name of the binary
       binary: goclone
@@ -60,7 +60,7 @@ changelog:
             - Merge branch
 # Seperate repo that you need to create before you deploy.
 brews:
-    - github:
+    - tap:
           owner: imthaghost
           name: homebrew-goclone
       folder: Formula
