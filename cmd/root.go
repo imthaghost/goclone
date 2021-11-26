@@ -1,4 +1,4 @@
-package main
+package cmd
 
 import (
 	"context"
@@ -10,11 +10,11 @@ import (
 )
 
 var (
-	// Flags
-	// Login bool // remove login flag for now
-	Serve, Open            bool
-	ProxyString, UserAgent string
-	Cookies                []string
+	Open        bool
+	Serve       bool
+	UserAgent   string
+	ProxyString string
+	Cookies     []string
 
 	// Root cmd
 	rootCmd = &cobra.Command{
