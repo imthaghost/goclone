@@ -18,11 +18,6 @@ func CreateProject(projectName string) string {
 	err := os.MkdirAll(projectPath, 0777)
 	check(err)
 
-	// create CSS/JS/Image directories
-	createCSS(projectPath)
-	createJS(projectPath)
-	createIMG(projectPath)
-
 	// main inedx file
 	_, err = os.Create(projectPath + "/" + "index.html")
 	check(err)

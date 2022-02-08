@@ -4,22 +4,22 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"os"
+	"path"
 	"path/filepath"
-
-	"github.com/imthaghost/goclone/pkg/parser"
 )
 
 // file extension map for directing files to their proper directory in O(1) time
 var (
-	extensionDir = map[string]string{
-		".css":  "css",
-		".js":   "js",
-		".jpg":  "imgs",
-		".jpeg": "imgs",
-		".gif":  "imgs",
-		".png":  "imgs",
-		".svg":  "imgs",
+	supportedExtension = map[string]struct{}{
+		".css": {},
+		".js":   {},
+		".jpg":  {},
+		".jpeg": {},
+		".gif":  {},
+		".png":  {},
+		".svg":  {},
 	}
 )
 
@@ -37,31 +37,28 @@ func Extractor(link string, projectPath string) {
 
 	// Closure
 	defer resp.Body.Close()
-	// file base
-	base := parser.URLFilename(link)
-	// store the old ext, in special cases the ext is weird ".css?a134fv"
-	oldExt := filepath.Ext(base)
-	// new file extension
-	ext := parser.URLExtension(link)
 
-	// checks if there was a valid extension
-	if ext != "" {
-		// checks if that extension has a directory path name associated with it
-		// from the extensionDir map
-		dirPath := extensionDir[ext]
-		if dirPath != "" {
-			// If extension and path are valid pass to writeFileToPath
-			writeFileToPath(projectPath, base, oldExt, ext, dirPath, resp)
-		}
+	parsedURL, err := url.Parse(link)
+	if err != nil {
+		panic(err)
+	}
+
+	// If extension is supported then writeFileToPath
+	if _, ok := supportedExtension[path.Ext(link)]; ok {
+		writeFileToPath(projectPath, parsedURL.Path, resp)
 	}
 }
 
-func writeFileToPath(projectPath, base, oldFileExt, newFileExt, fileDir string, resp *http.Response) {
-	var name = base[0 : len(base)-len(oldFileExt)]
-	document := name + newFileExt
 
-	// get the project name and path we use the path to
-	f, err := os.OpenFile(projectPath+"/"+fileDir+"/"+document, os.O_RDWR|os.O_CREATE, 0777)
+func writeFileToPath(projectPath, path string, resp *http.Response) {
+
+	pathToWrite := filepath.Join(projectPath, path)
+	// mkdir -p
+	if err := os.MkdirAll(filepath.Dir(pathToWrite), os.ModePerm); err != nil {
+		panic(err)
+	}
+
+	f, err := os.OpenFile(pathToWrite, os.O_RDWR|os.O_CREATE, 0777)
 	if err != nil {
 		panic(err)
 	}
