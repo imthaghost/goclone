@@ -82,7 +82,7 @@ func cloneSite(ctx context.Context, args []string) error {
 	} else if Open {
 		// automatically open project
 		cmd := exec.CommandContext(ctx, "open", firstProject+"/index.html")
-		if err := cmd.Start(); err != nil {
+		if err := cmd.Run(); err != nil {
 			return fmt.Errorf("%v: %w", cmd.Args, err)
 		}
 	}
