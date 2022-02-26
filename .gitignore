@@ -1,6 +1,6 @@
-.DS_Store
-.vscode
-.env
+**/*.DS_Store
+**/*.vscode
+**/*.env
 pkg/parser/domains.csv
-dist
-.idea/
+**/*dist
+**/*.idea/

@@ -1,0 +1,20 @@
+name: Feature Branch
+
+on:
+  push:
+    branches-ignore:
+      - 'master'
+jobs:
+  test:
+    name: Run Unit Test
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Go 1.17.2
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17.2
+      - name: Parser test
+        run: go test pkg/parser/* -v
