@@ -3,7 +3,7 @@ name: Feature Branch
 on:
   push:
     branches-ignore:
-      - 'master'
+      - "master"
 jobs:
   test:
     name: Run Unit Test
@@ -17,4 +17,4 @@ jobs:
         with:
           go-version: 1.17.2
       - name: Parser test
-        run: go test pkg/parser/* -v
+        run: go test ./... -v
