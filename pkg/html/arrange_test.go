@@ -13,6 +13,7 @@ import (
 )
 
 func TestArrange(t *testing.T) {
+	testutils.SilenceStdoutInTests()
 	ts := testutils.NewArrangeTestServer()
 	defer ts.Close()
 	projectDirectory := file.CreateProject("test")

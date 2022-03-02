@@ -57,6 +57,7 @@ var collectorTests = map[string]func(*testing.T){
 }
 
 func TestSetUpCollector(t *testing.T) {
+	testutils.SilenceStdoutInTests()
 	c := colly.NewCollector(colly.Async(true))
 	userAgent := "Firefox"
 	setUpCollector(c, nil, nil, "http://127.0.0.1:9999", "Firefox")
@@ -66,6 +67,7 @@ func TestSetUpCollector(t *testing.T) {
 	}
 }
 func TestCollectorTests(t *testing.T) {
+	testutils.SilenceStdoutInTests()
 	ts := testutils.NewCrawlerTestServer()
 	defer ts.Close()
 	TsUrl = ts.URL

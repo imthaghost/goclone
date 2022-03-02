@@ -3,6 +3,7 @@ package testutils
 import (
 	"net/http"
 	"net/http/httptest"
+	"os"
 )
 
 var ArrangeIndexContent = `<html>
@@ -64,4 +65,8 @@ func NewCrawlerTestServer() *httptest.Server {
 		w.Write([]byte(CrawlerIndexContent))
 	})
 	return httptest.NewServer(mux)
+}
+
+func SilenceStdoutInTests() {
+	os.Stdout, _ = os.Open(os.DevNull)
 }
