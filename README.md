@@ -70,10 +70,10 @@ Visit the <b>Notion</b> link [here](https://www.notion.so/0f3cb918168b48ffa5072c
 
 ```bash
 # goclone <url>
-goclone https://dribbble.com
+goclone https://configtree.co
 ```
 
-![Dribbble](/docs/media/dribbble.gif)
+![Dribbble](/docs/media/config.gif)
 
 ## Usage
 
