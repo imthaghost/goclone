@@ -56,7 +56,7 @@ cd $GOPATH/src/github.com/imthaghost/goclone/cmd/goclone
 # build and install application
 go install
 # GO version >= 1.18
-go install github.com/imthaghost/goclone@latest
+go install github.com/imthaghost/goclone/cmd/goclone@latest
 ```
 
 <a name="todo"></a>
