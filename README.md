@@ -48,12 +48,15 @@ brew install goclone
 ### Manual
 
 ```bash
+# GO version < 1.18
 # go get :)
 go get github.com/imthaghost/goclone
 # change to project directory using your GOPATH
 cd $GOPATH/src/github.com/imthaghost/goclone/cmd/goclone
 # build and install application
 go install
+# GO version >= 1.18
+go install github.com/imthaghost/goclone/cmd/goclone@latest
 ```
 
 <a name="todo"></a>
