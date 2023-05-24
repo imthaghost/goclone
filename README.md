@@ -90,6 +90,7 @@ Flags:
   -o, --open                  Automatically open project in default browser
   -p, --proxy_string string   Proxy connection string. Support http and socks5 https://pkg.go.dev/github.com/gocolly/colly#Collector.SetProxy
   -s, --serve                 Serve the generated files using Echo.
+  -P, --servePort int         Serve port number. (default 5000)
   -u, --user_agent string     Custom User Agent
 ```
 
