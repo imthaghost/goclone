@@ -12,6 +12,7 @@ import (
 var (
 	Open        bool
 	Serve       bool
+	ServePort   int
 	UserAgent   string
 	ProxyString string
 	Cookies     []string
@@ -49,6 +50,7 @@ func Execute() {
 	pf.BoolVarP(&Open, "open", "o", false, "Automatically open project in deafult browser")
 	// rootCmd.PersistentFlags().BoolVarP(&Login, "login", "l", false, "Wether to use a username or password")
 	pf.BoolVarP(&Serve, "serve", "s", false, "Serve the generated files using Echo.")
+	pf.IntVarP(&ServePort, "servePort", "P", 5000, "Serve port number.")
 	pf.StringVarP(&ProxyString, "proxy_string", "p", "", "Proxy connection string. Support http and socks5 https://pkg.go.dev/github.com/gocolly/colly#Collector.SetProxy")
 	pf.StringVarP(&UserAgent, "user_agent", "u", "", "Custom User Agent")
 	rootCmd.Flags().StringSliceVarP(&Cookies, "cookie", "C", nil, "Pre-set these cookies")

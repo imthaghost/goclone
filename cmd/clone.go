@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/http/cookiejar"
 	"net/url"
+	"strconv"
 	"strings"
 
 	"os/exec"
@@ -74,11 +75,11 @@ func cloneSite(ctx context.Context, args []string) error {
 
 	}
 	if Serve {
-		cmd := exec.Command("open", "http://localhost:5000")
+		cmd := exec.Command("open", "http://localhost:"+strconv.Itoa(ServePort))
 		if err := cmd.Start(); err != nil {
 			return fmt.Errorf("%v: %w", cmd.Args, err)
 		}
-		return server.Serve(firstProject)
+		return server.Serve(firstProject, ServePort)
 	} else if Open {
 		// automatically open project
 		cmd := exec.Command("open", firstProject+"/index.html")
