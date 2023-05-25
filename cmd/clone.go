@@ -90,7 +90,7 @@ func cloneSite(ctx context.Context, args []string) error {
 }
 
 // open opens the specified URL in the default browser of the user.
-func open(url string) error {
+func open(url string) *exec.Cmd {
     var cmd string
     var args []string
 
