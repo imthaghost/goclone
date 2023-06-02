@@ -11,7 +11,7 @@ Copy websites to your computer! Goclone is a utility that allows you to download
 <br>
 <p align="center">
    <a href="https://goreportcard.com/report/github.com/imthaghost/goclone"><img src="https://goreportcard.com/badge/github.com/imthaghost/goclone"></a>
-   <a href="https://travis-ci.org/imthaghost/goclone.svg?branch=master"><img src="https://travis-ci.org/imthaghost/goclone.svg?branch=master"></a>
+   <a href="https://github.com/imthaghost/goclone/actions/workflows/master-workflow.yml"><img src="https://github.com/imthaghost/goclone/actions/workflows/master-workflow.yml/badge.svg"></a>
    <a href="https://github.com/imthaghost/goclone/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
 </p>
 <br>
@@ -23,9 +23,7 @@ Copy websites to your computer! Goclone is a utility that allows you to download
 - [Installation](#installation)
   - [Brew](#brew)
   - [Manual](#manual)
-- [Todo](#todo)
 - [Examples](#examples)
-- [License](#license)
 - [Contributors](#contributors)
 
 <a name="installation"></a>
@@ -48,24 +46,21 @@ brew install goclone
 ### Manual
 
 ```bash
-# GO version < 1.18
+# Go version >= 1.20
+go install github.com/imthaghost/goclone/cmd/goclone@latest
+```
+#### Or
+
+```bash
 # go get :)
 go get github.com/imthaghost/goclone
 # change to project directory using your GOPATH
 cd $GOPATH/src/github.com/imthaghost/goclone/cmd/goclone
 # build and install application
 go install
-# GO version >= 1.18
-go install github.com/imthaghost/goclone/cmd/goclone@latest
 ```
 
-<a name="todo"></a>
 
-## Todo
-
-Visit the <b>Notion</b> link [here](https://www.notion.so/0f3cb918168b48ffa5072c6ee39281ee?v=5330c26bd2d747dfac07882347b4a1df) to view Goclone's feature/bug progress.
-
-![Notion](/docs/media/progress.png)
 
 <a name="examples"></a>
 
@@ -76,7 +71,7 @@ Visit the <b>Notion</b> link [here](https://www.notion.so/0f3cb918168b48ffa5072c
 goclone https://configtree.co
 ```
 
-![Dribbble](/docs/media/config.gif)
+![Config](/docs/media/config.gif)
 
 ## Usage
 
@@ -92,14 +87,6 @@ Flags:
   -s, --serve                 Serve the generated files using Echo.
   -u, --user_agent string     Custom User Agent
 ```
-
-<a name="license"></a>
-
-## 📝 License
-
-By contributing, you agree that your contributions will be licensed under its MIT License.
-
-In short, when you submit code changes, your submissions are understood to be under the same [MIT License](http://choosealicense.com/licenses/mit/) that covers the project. Feel free to contact the maintainers if that's a concern.
 
 <a name="contributors"></a>
 
