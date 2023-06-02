@@ -24,7 +24,6 @@ Copy websites to your computer! Goclone is a utility that allows you to download
   - [Brew](#brew)
   - [Manual](#manual)
 - [Examples](#examples)
-- [License](#license)
 - [Contributors](#contributors)
 
 <a name="installation"></a>
@@ -83,14 +82,6 @@ Flags:
   -s, --serve                 Serve the generated files using Echo.
   -u, --user_agent string     Custom User Agent
 ```
-
-<a name="license"></a>
-
-## 📝 License
-
-By contributing, you agree that your contributions will be licensed under its MIT License.
-
-In short, when you submit code changes, your submissions are understood to be under the same [MIT License](http://choosealicense.com/licenses/mit/) that covers the project. Feel free to contact the maintainers if that's a concern.
 
 <a name="contributors"></a>
 
