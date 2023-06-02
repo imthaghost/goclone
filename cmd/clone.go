@@ -74,17 +74,35 @@ func cloneSite(ctx context.Context, args []string) error {
 
 	}
 	if Serve {
-		cmd := exec.Command("open", "http://localhost:5000")
+		cmd := open("http://localhost:5000")
 		if err := cmd.Start(); err != nil {
 			return fmt.Errorf("%v: %w", cmd.Args, err)
 		}
 		return server.Serve(firstProject)
 	} else if Open {
 		// automatically open project
-		cmd := exec.Command("open", firstProject+"/index.html")
+		cmd := open("open", firstProject+"/index.html")
 		if err := cmd.Start(); err != nil {
 			return fmt.Errorf("%v: %w", cmd.Args, err)
 		}
 	}
 	return nil
+}
+
+// open opens the specified URL in the default browser of the user.
+func open(url string) *exec.Cmd {
+    var cmd string
+    var args []string
+
+    switch runtime.GOOS {
+    case "windows":
+        cmd = "cmd"
+        args = []string{"/c", "start"}
+    case "darwin":
+        cmd = "open"
+    default: // "linux", "freebsd", "openbsd", "netbsd"
+        cmd = "xdg-open"
+    }
+    args = append(args, url)
+    return exec.Command(cmd, args...)
 }
