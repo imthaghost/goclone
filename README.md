@@ -11,7 +11,7 @@ Copy websites to your computer! Goclone is a utility that allows you to download
 <br>
 <p align="center">
    <a href="https://goreportcard.com/report/github.com/imthaghost/goclone"><img src="https://goreportcard.com/badge/github.com/imthaghost/goclone"></a>
-   <a href="https://travis-ci.org/imthaghost/goclone.svg?branch=master"><img src="https://travis-ci.org/imthaghost/goclone.svg?branch=master"></a>
+   <a href="https://github.com/imthaghost/goclone/actions/workflows/master-workflow.yml"><img src="https://github.com/imthaghost/goclone/actions/workflows/master-workflow.yml/badge.svg"></a>
    <a href="https://github.com/imthaghost/goclone/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
 </p>
 <br>
@@ -23,7 +23,6 @@ Copy websites to your computer! Goclone is a utility that allows you to download
 - [Installation](#installation)
   - [Brew](#brew)
   - [Manual](#manual)
-- [Todo](#todo)
 - [Examples](#examples)
 - [License](#license)
 - [Contributors](#contributors)
@@ -59,14 +58,6 @@ go install
 go install github.com/imthaghost/goclone/cmd/goclone@latest
 ```
 
-<a name="todo"></a>
-
-## Todo
-
-Visit the <b>Notion</b> link [here](https://www.notion.so/0f3cb918168b48ffa5072c6ee39281ee?v=5330c26bd2d747dfac07882347b4a1df) to view Goclone's feature/bug progress.
-
-![Notion](/docs/media/progress.png)
-
 <a name="examples"></a>
 
 ## Examples
@@ -76,7 +67,7 @@ Visit the <b>Notion</b> link [here](https://www.notion.so/0f3cb918168b48ffa5072c
 goclone https://configtree.co
 ```
 
-![Dribbble](/docs/media/config.gif)
+![Config](/docs/media/config.gif)
 
 ## Usage
 
