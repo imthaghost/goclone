@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/http/cookiejar"
 	"net/url"
+	"runtime"
 	"strings"
 
 	"os/exec"
@@ -81,7 +82,7 @@ func cloneSite(ctx context.Context, args []string) error {
 		return server.Serve(firstProject)
 	} else if Open {
 		// automatically open project
-		cmd := open("open", firstProject+"/index.html")
+		cmd := open(firstProject + "/index.html")
 		if err := cmd.Start(); err != nil {
 			return fmt.Errorf("%v: %w", cmd.Args, err)
 		}
@@ -91,18 +92,18 @@ func cloneSite(ctx context.Context, args []string) error {
 
 // open opens the specified URL in the default browser of the user.
 func open(url string) *exec.Cmd {
-    var cmd string
-    var args []string
+	var cmd string
+	var args []string
 
-    switch runtime.GOOS {
-    case "windows":
-        cmd = "cmd"
-        args = []string{"/c", "start"}
-    case "darwin":
-        cmd = "open"
-    default: // "linux", "freebsd", "openbsd", "netbsd"
-        cmd = "xdg-open"
-    }
-    args = append(args, url)
-    return exec.Command(cmd, args...)
+	switch runtime.GOOS {
+	case "windows":
+		cmd = "cmd"
+		args = []string{"/c", "start"}
+	case "darwin":
+		cmd = "open"
+	default: // "linux", "freebsd", "openbsd", "netbsd"
+		cmd = "xdg-open"
+	}
+	args = append(args, url)
+	return exec.Command(cmd, args...)
 }
