@@ -1,9 +1,9 @@
 package server
 
 import (
+	"fmt"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
-	"strconv"
 )
 
 // Serve ...
@@ -21,5 +21,5 @@ func Serve(projectPath string, port int) error {
 	e.Static("/", projectPath)
 	e.File("/", projectPath)
 
-	return e.Start(":" + strconv.Itoa(port))
+	return e.Start(fmt.Sprintf(":%d", port))
 }
