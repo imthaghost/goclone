@@ -1,12 +1,13 @@
 package server
 
 import (
+	"fmt"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 )
 
 // Serve ...
-func Serve(projectPath string) error {
+func Serve(projectPath string, port int) error {
 	e := echo.New()
 	// Log Output
 	e.Use(middleware.Logger())
@@ -20,5 +21,5 @@ func Serve(projectPath string) error {
 	e.Static("/", projectPath)
 	e.File("/", projectPath)
 
-	return e.Start(":5000")
+	return e.Start(fmt.Sprintf(":%d", port))
 }

@@ -75,11 +75,12 @@ func cloneSite(ctx context.Context, args []string) error {
 
 	}
 	if Serve {
-		cmd := open("http://localhost:5000")
+		serverUrl := fmt.Sprintf("http://localhost:%d", ServePort)
+		cmd := exec.Command("open", serverUrl)
 		if err := cmd.Start(); err != nil {
 			return fmt.Errorf("%v: %w", cmd.Args, err)
 		}
-		return server.Serve(firstProject)
+		return server.Serve(firstProject, ServePort)
 	} else if Open {
 		// automatically open project
 		cmd := open(firstProject + "/index.html")
