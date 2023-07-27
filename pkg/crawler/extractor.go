@@ -2,7 +2,7 @@ package crawler
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -66,7 +66,7 @@ func writeFileToPath(projectPath, base, oldFileExt, newFileExt, fileDir string, 
 		panic(err)
 	}
 	defer f.Close()
-	htmlData, err := ioutil.ReadAll(resp.Body)
+	htmlData, err := io.ReadAll(resp.Body)
 
 	if err != nil {
 		panic(err)

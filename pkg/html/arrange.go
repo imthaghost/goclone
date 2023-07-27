@@ -3,7 +3,7 @@ package html
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"regexp"
 	"strings"
@@ -14,7 +14,7 @@ import (
 // TODO: figure out what was done here at 4am
 func arrange(projectDir string) error {
 	indexfile := projectDir + "/index.html"
-	input, err := ioutil.ReadFile(indexfile)
+	input, err := os.ReadFile(indexfile)
 	if err != nil {
 		return err
 	}
@@ -70,7 +70,7 @@ func arrange(projectDir string) error {
 		})
 	}
 	output := strings.Join(lines, "\n")
-	return ioutil.WriteFile(indexfile, []byte(output), 0777)
+	return os.WriteFile(indexfile, []byte(output), 0777)
 }
 
 var reSrc = regexp.MustCompile(`src\s*=\s*"(.+?)"`)

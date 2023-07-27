@@ -2,7 +2,7 @@ package crawler
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
 	"crypto/tls"
@@ -28,7 +28,7 @@ func HTMLExtractor(link string, projectPath string) {
 		panic(err)
 	}
 	defer f.Close()
-	htmlData, err := ioutil.ReadAll(resp.Body)
+	htmlData, err := io.ReadAll(resp.Body)
 
 	if err != nil {
 		panic(err)
