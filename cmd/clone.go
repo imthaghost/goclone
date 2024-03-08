@@ -76,7 +76,7 @@ func cloneSite(ctx context.Context, args []string) error {
 	}
 	if Serve {
 		serverUrl := fmt.Sprintf("http://localhost:%d", ServePort)
-		cmd := exec.Command("open", serverUrl)
+		cmd := open(serverUrl)
 		if err := cmd.Start(); err != nil {
 			return fmt.Errorf("%v: %w", cmd.Args, err)
 		}
@@ -103,7 +103,11 @@ func open(url string) *exec.Cmd {
 	case "darwin":
 		cmd = "open"
 	default: // "linux", "freebsd", "openbsd", "netbsd"
-		cmd = "xdg-open"
+		if _, err := exec.LookPath("xdg-open"); err != nil {
+			cmd = "echo"
+		}else {
+			cmd = "xdg-open"
+		}
 	}
 	args = append(args, url)
 	return exec.Command(cmd, args...)
