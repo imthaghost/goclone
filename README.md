@@ -82,6 +82,7 @@ Usage:
 Flags:
   -C, --cookie strings        Pre-set these cookies
   -h, --help                  help for goclone
+  -f, --offline               Serve previously cloned files
   -o, --open                  Automatically open project in default browser
   -p, --proxy_string string   Proxy connection string. Support http and socks5 https://pkg.go.dev/github.com/gocolly/colly#Collector.SetProxy
   -s, --serve                 Serve the generated files using Echo.
