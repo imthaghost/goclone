@@ -50,29 +50,32 @@ func cloneSite(ctx context.Context, args []string) error {
 
 	var firstProject string
 	for _, u := range args {
-		isValid, isValidDomain := parser.ValidateURL(u), parser.ValidateDomain(u)
-		if !isValid && !isValidDomain {
-			return fmt.Errorf("%q is not valid", u)
-		}
-		name := u
-		if isValidDomain {
-			u = parser.CreateURL(name)
+		if !Offline {
+			isValid, isValidDomain := parser.ValidateURL(u), parser.ValidateDomain(u)
+			if !isValid && !isValidDomain {
+				return fmt.Errorf("%q is not valid", u)
+			}
+			name := u
+			if isValidDomain {
+				u = parser.CreateURL(name)
+			} else {
+				name = parser.GetDomain(u)
+			}
+			projectPath := file.CreateProject(name)
+			if firstProject == "" {
+				firstProject = projectPath
+			}
+
+			if err := crawler.Crawl(ctx, u, projectPath, jar, ProxyString, UserAgent); err != nil {
+				return fmt.Errorf("%q: %w", u, err)
+			}
+			// Restructure html
+			if err := html.LinkRestructure(projectPath); err != nil {
+				return fmt.Errorf("%q: %w", projectPath, err)
+			}
 		} else {
-			name = parser.GetDomain(u)
+			firstProject = u
 		}
-		projectPath := file.CreateProject(name)
-		if firstProject == "" {
-			firstProject = projectPath
-		}
-
-		if err := crawler.Crawl(ctx, u, projectPath, jar, ProxyString, UserAgent); err != nil {
-			return fmt.Errorf("%q: %w", u, err)
-		}
-		// Restructure html
-		if err := html.LinkRestructure(projectPath); err != nil {
-			return fmt.Errorf("%q: %w", projectPath, err)
-		}
-
 	}
 	if Serve {
 		serverUrl := fmt.Sprintf("http://localhost:%d", ServePort)
@@ -105,7 +108,7 @@ func open(url string) *exec.Cmd {
 	default: // "linux", "freebsd", "openbsd", "netbsd"
 		if _, err := exec.LookPath("xdg-open"); err != nil {
 			cmd = "echo"
-		}else {
+		} else {
 			cmd = "xdg-open"
 		}
 	}
