@@ -2,8 +2,9 @@ package crawler
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
+	"net/http/cookiejar"
 	"os"
 	"path/filepath"
 
@@ -26,15 +27,24 @@ var (
 // Extractor visits a link determines if its a page or sublink
 // downloads the contents to a correct directory in project folder
 // TODO add functionality for determining if page or sublink
-func Extractor(link string, projectPath string) {
+func Extractor(link string, projectPath string, referer string, userAgent string, cookieJar *cookiejar.Jar) {
 	fmt.Println("Extracting --> ", link)
-
+	client := &http.Client{Jar: cookieJar}
+	req, err := http.NewRequest("GET", link, nil)
+	if err != nil {
+		return
+	}
+	if userAgent != "" {
+		req.Header.Set("User-Agent", userAgent)
+	}
+	if referer != "" {
+		req.Header.Set("Referer", referer) // 例如设置 Authorization 头
+	}
 	// get the html body
-	resp, err := http.Get(link)
+	resp, err := client.Do(req)
 	if err != nil {
 		panic(err)
 	}
-
 	// Closure
 	defer resp.Body.Close()
 	// file base
@@ -66,7 +76,7 @@ func writeFileToPath(projectPath, base, oldFileExt, newFileExt, fileDir string, 
 		panic(err)
 	}
 	defer f.Close()
-	htmlData, err := ioutil.ReadAll(resp.Body)
+	htmlData, err := io.ReadAll(resp.Body)
 
 	if err != nil {
 		panic(err)

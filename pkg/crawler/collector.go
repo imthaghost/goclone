@@ -12,11 +12,10 @@ import (
 
 // Collector searches for css, js, and images within a given link
 // TODO improve for better performance
-func Collector(ctx context.Context, url string, projectPath string, cookieJar *cookiejar.Jar, proxyString string, userAgent string) error {
+func Collector(ctx context.Context, url string, projectPath string, cookieJar *cookiejar.Jar, proxyString string, userAgent string, referer string) error {
 	// create a new collector
 	c := colly.NewCollector(colly.Async(true))
 	setUpCollector(c, ctx, cookieJar, proxyString, userAgent)
-
 	// search for all link tags that have a rel attribute that is equal to stylesheet - CSS
 	c.OnHTML("link[rel='stylesheet']", func(e *colly.HTMLElement) {
 		// hyperlink reference
@@ -24,7 +23,7 @@ func Collector(ctx context.Context, url string, projectPath string, cookieJar *c
 		// print css file was found
 		fmt.Println("Css found", "-->", link)
 		// extraction
-		Extractor(e.Request.AbsoluteURL(link), projectPath)
+		Extractor(e.Request.AbsoluteURL(link), projectPath, referer, userAgent, cookieJar)
 	})
 
 	// search for all script tags with src attribute -- JS
@@ -34,7 +33,7 @@ func Collector(ctx context.Context, url string, projectPath string, cookieJar *c
 		// Print link
 		fmt.Println("Js found", "-->", link)
 		// extraction
-		Extractor(e.Request.AbsoluteURL(link), projectPath)
+		Extractor(e.Request.AbsoluteURL(link), projectPath, referer, userAgent, cookieJar)
 	})
 
 	// serach for all img tags with src attribute -- Images
@@ -47,14 +46,15 @@ func Collector(ctx context.Context, url string, projectPath string, cookieJar *c
 		// Print link
 		fmt.Println("Img found", "-->", link)
 		// extraction
-		Extractor(e.Request.AbsoluteURL(link), projectPath)
+		Extractor(e.Request.AbsoluteURL(link), projectPath, referer, userAgent, cookieJar)
 	})
 
 	//Before making a request
 	c.OnRequest(func(r *colly.Request) {
+		r.Headers.Set("Referer", referer)
 		link := r.URL.String()
 		if url == link {
-			HTMLExtractor(link, projectPath)
+			HTMLExtractor(link, projectPath, referer, userAgent, cookieJar)
 		}
 	})
 
@@ -79,6 +79,7 @@ func (t cancelableTransport) RoundTrip(req *http.Request) (*http.Response, error
 }
 
 func setUpCollector(c *colly.Collector, ctx context.Context, cookieJar *cookiejar.Jar, proxyString, userAgent string) {
+
 	if cookieJar != nil {
 		c.SetCookieJar(cookieJar)
 	}

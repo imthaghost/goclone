@@ -15,6 +15,7 @@ var (
 	ServePort   int
 	UserAgent   string
 	ProxyString string
+	Referer     string
 	Cookies     []string
 
 	// Root cmd
@@ -32,6 +33,8 @@ var (
 
 				return
 			}
+
+			log.Printf("-->" + Referer)
 
 			ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
 			defer stop()
@@ -53,6 +56,7 @@ func Execute() {
 	pf.IntVarP(&ServePort, "servePort", "P", 5000, "Serve port number.")
 	pf.StringVarP(&ProxyString, "proxy_string", "p", "", "Proxy connection string. Support http and socks5 https://pkg.go.dev/github.com/gocolly/colly#Collector.SetProxy")
 	pf.StringVarP(&UserAgent, "user_agent", "u", "", "Custom User Agent")
+	pf.StringVarP(&Referer, "referer", "r", "", "Custom Referer")
 	rootCmd.Flags().StringSliceVarP(&Cookies, "cookie", "C", nil, "Pre-set these cookies")
 
 	// Execute the command :)
