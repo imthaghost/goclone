@@ -5,29 +5,17 @@ import (
 	"io"
 	"net/http"
 	"net/http/cookiejar"
+	"net/url"
 	"os"
+	"path"
 	"path/filepath"
-
-	"github.com/imthaghost/goclone/pkg/parser"
+	"strings"
 )
 
-// file extension map for directing files to their proper directory in O(1) time
-var (
-	extensionDir = map[string]string{
-		".css":  "css",
-		".js":   "js",
-		".jpg":  "imgs",
-		".jpeg": "imgs",
-		".gif":  "imgs",
-		".png":  "imgs",
-		".svg":  "imgs",
+func Extractor(baseUrl, link, projectFilePath string, referer string, userAgent string, cookieJar *cookiejar.Jar) {
+	if link == "" || strings.HasPrefix(link, "#") {
+		return
 	}
-)
-
-// Extractor visits a link determines if its a page or sublink
-// downloads the contents to a correct directory in project folder
-// TODO add functionality for determining if page or sublink
-func Extractor(link string, projectPath string, referer string, userAgent string, cookieJar *cookiejar.Jar) {
 	fmt.Println("Extracting --> ", link)
 	client := &http.Client{Jar: cookieJar}
 	req, err := http.NewRequest("GET", link, nil)
@@ -43,36 +31,84 @@ func Extractor(link string, projectPath string, referer string, userAgent string
 	// get the html body
 	resp, err := client.Do(req)
 	if err != nil {
-		panic(err)
+		return
 	}
 	// Closure
 	defer resp.Body.Close()
-	// file base
-	base := parser.URLFilename(link)
-	// store the old ext, in special cases the ext is weird ".css?a134fv"
-	oldExt := filepath.Ext(base)
-	// new file extension
-	ext := parser.URLExtension(link)
-
-	// checks if there was a valid extension
-	if ext != "" {
-		// checks if that extension has a directory path name associated with it
-		// from the extensionDir map
-		dirPath := extensionDir[ext]
-		if dirPath != "" {
-			// If extension and path are valid pass to writeFileToPath
-			writeFileToPath(projectPath, base, oldExt, ext, dirPath, resp)
-		}
+	baseURL, err := ExtractBaseURL(baseUrl)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
 	}
+	path, err := ExtractPath(baseURL, link)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	writeFileToPath(projectFilePath+"/"+path, resp)
 }
 
-func writeFileToPath(projectPath, base, oldFileExt, newFileExt, fileDir string, resp *http.Response) {
-	var name = base[0 : len(base)-len(oldFileExt)]
-	document := name + newFileExt
-
-	// get the project name and path we use the path to
-	f, err := os.OpenFile(projectPath+"/"+fileDir+"/"+document, os.O_RDWR|os.O_CREATE, 0777)
+func ExtractBaseURL(baseURL string) (string, error) {
+	// 解析基础URL
+	parsedURL, err := url.Parse(baseURL)
 	if err != nil {
+		return "", fmt.Errorf("解析基础URL失败: %v", err)
+	}
+	// 获取路径部分，并去掉文件名部分
+	basePath := parsedURL.Path
+	// 处理路径部分，去掉文件名
+	dir := path.Dir(basePath)
+	// 如果路径最后没有斜杠，手动添加斜杠
+	if !strings.HasSuffix(dir, "/") {
+		dir += "/"
+	}
+	// 构建新的基础 URL
+	baseURLWithoutFile := fmt.Sprintf("%s://%s%s", parsedURL.Scheme, parsedURL.Host, dir)
+
+	return baseURLWithoutFile, nil
+}
+
+func ExtractPath(baseURL, resourceURL string) (string, error) {
+	// 解析基础URL
+	baseParsed, err := url.Parse(baseURL)
+	if err != nil {
+		return "", fmt.Errorf("解析基础URL失败: %v", err)
+	}
+
+	// 解析资源URL
+	resourceParsed, err := url.Parse(resourceURL)
+	if err != nil {
+		return "", fmt.Errorf("解析资源URL失败: %v", err)
+	}
+
+	// 获取基础URL的路径部分
+	basePath := baseParsed.Path
+	if strings.HasSuffix(basePath, "/") {
+		basePath = basePath[:len(basePath)-1] // 移除末尾的斜杠
+	}
+
+	// 获取资源URL的路径部分
+	resourcePath := resourceParsed.Path
+
+	// 移除基础路径的前缀部分，获取相对路径
+	if strings.HasPrefix(resourcePath, basePath) {
+		relativePath := strings.TrimPrefix(resourcePath, basePath+"/")
+		return relativePath, nil
+	}
+
+	return "", fmt.Errorf("资源URL不以基础URL为前缀")
+}
+func fileExists(filename string) bool {
+	_, err := os.Stat(filename)
+	return !os.IsNotExist(err)
+}
+
+func writeFileToPath(projectFilePath string, resp *http.Response) {
+	dir := filepath.Dir(projectFilePath)
+	os.MkdirAll(dir, os.ModePerm)
+	f, err := os.OpenFile(projectFilePath, os.O_RDWR|os.O_CREATE, 0777)
+	if err != nil {
+		println(projectFilePath)
 		panic(err)
 	}
 	defer f.Close()

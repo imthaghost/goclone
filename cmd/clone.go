@@ -13,7 +13,6 @@ import (
 
 	"github.com/imthaghost/goclone/pkg/crawler"
 	"github.com/imthaghost/goclone/pkg/file"
-	"github.com/imthaghost/goclone/pkg/html"
 	"github.com/imthaghost/goclone/pkg/parser"
 	"github.com/imthaghost/goclone/pkg/server"
 )
@@ -69,9 +68,9 @@ func cloneSite(ctx context.Context, args []string) error {
 			return fmt.Errorf("%q: %w", u, err)
 		}
 		// Restructure html
-		if err := html.LinkRestructure(projectPath); err != nil {
-			return fmt.Errorf("%q: %w", projectPath, err)
-		}
+		//if err := html.LinkRestructure(projectPath); err != nil {
+		//	return fmt.Errorf("%q: %w", projectPath, err)
+		//}
 
 	}
 	if Serve {
