@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"regexp"
 	"strings"
@@ -14,7 +15,7 @@ import (
 // TODO: figure out what was done here at 4am
 func arrange(projectDir string) error {
 	indexfile := projectDir + "/index.html"
-	input, err := ioutil.ReadFile(indexfile)
+	input, err := os.ReadFile(indexfile)
 	if err != nil {
 		return err
 	}

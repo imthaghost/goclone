@@ -15,6 +15,8 @@ var (
 	ServePort   int
 	UserAgent   string
 	ProxyString string
+	Referer     string
+	Depth       int
 	Cookies     []string
 
 	// Root cmd
@@ -32,7 +34,9 @@ var (
 
 				return
 			}
-
+			if Depth == 0 {
+				Depth = 1
+			}
 			ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
 			defer stop()
 			// Otherwise.. clone ahead!
@@ -51,8 +55,10 @@ func Execute() {
 	// rootCmd.PersistentFlags().BoolVarP(&Login, "login", "l", false, "Wether to use a username or password")
 	pf.BoolVarP(&Serve, "serve", "s", false, "Serve the generated files using Echo.")
 	pf.IntVarP(&ServePort, "servePort", "P", 5000, "Serve port number.")
+	pf.IntVarP(&Depth, "depth", "d", 5000, "max depth")
 	pf.StringVarP(&ProxyString, "proxy_string", "p", "", "Proxy connection string. Support http and socks5 https://pkg.go.dev/github.com/gocolly/colly#Collector.SetProxy")
 	pf.StringVarP(&UserAgent, "user_agent", "u", "", "Custom User Agent")
+	pf.StringVarP(&Referer, "referer", "r", "", "Custom Referer")
 	rootCmd.Flags().StringSliceVarP(&Cookies, "cookie", "C", nil, "Pre-set these cookies")
 
 	// Execute the command :)
