@@ -12,9 +12,9 @@ import (
 
 // Collector searches for css, js, and images within a given link
 // TODO improve for better performance
-func Collector(ctx context.Context, url string, projectPath string, cookieJar *cookiejar.Jar, proxyString string, userAgent string, referer string) error {
+func Collector(ctx context.Context, url string, projectPath string, cookieJar *cookiejar.Jar, proxyString string, userAgent string, referer string, Depth int) error {
 	// create a new collector
-	c := colly.NewCollector(colly.Async(true))
+	c := colly.NewCollector(colly.Async(true), colly.MaxDepth(Depth))
 	setUpCollector(c, ctx, cookieJar, proxyString, userAgent)
 	// search for all link tags that have a rel attribute that is equal to stylesheet - CSS
 	c.OnHTML("link[rel='stylesheet']", func(e *colly.HTMLElement) {
