@@ -13,14 +13,16 @@ on:
 jobs:
   test:
     name: Run Unit Test
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@master
-      - name: Go 1.17.2
-        uses: actions/setup-go@v2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Go 1.24
+        uses: actions/setup-go@0aaccfd150d50ccaeb58ebd88d36e91967a5f35b
         with:
-          go-version: 1.17.2
+          go-version: 1.24
+
       - name: Parser test
         run: go test ./... -v
