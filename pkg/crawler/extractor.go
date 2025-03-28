@@ -2,7 +2,7 @@ package crawler
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -37,11 +37,10 @@ func Extractor(link string, projectPath string) {
 
 	// Closure
 	defer resp.Body.Close()
-	// file base
+
+	// Get the original filename from the URL
 	base := parser.URLFilename(link)
-	// store the old ext, in special cases the ext is weird ".css?a134fv"
-	oldExt := filepath.Ext(base)
-	// new file extension
+	// Get the clean extension
 	ext := parser.URLExtension(link)
 
 	// checks if there was a valid extension
@@ -51,23 +50,30 @@ func Extractor(link string, projectPath string) {
 		dirPath := extensionDir[ext]
 		if dirPath != "" {
 			// If extension and path are valid pass to writeFileToPath
-			writeFileToPath(projectPath, base, oldExt, ext, dirPath, resp)
+			writeFileToPath(projectPath, base, dirPath, resp)
 		}
 	}
 }
 
-func writeFileToPath(projectPath, base, oldFileExt, newFileExt, fileDir string, resp *http.Response) {
-	var name = base[0 : len(base)-len(oldFileExt)]
-	document := name + newFileExt
+func writeFileToPath(projectPath, filename, fileDir string, resp *http.Response) {
+	// Create the full path
+	fullPath := filepath.Join(projectPath, fileDir, filename)
 
-	// get the project name and path we use the path to
-	f, err := os.OpenFile(projectPath+"/"+fileDir+"/"+document, os.O_RDWR|os.O_CREATE, 0777)
+	// Create the directory if it doesn't exist
+	err := os.MkdirAll(filepath.Dir(fullPath), 0777)
+	if err != nil {
+		panic(err)
+	}
+
+	// Open the file for writing
+	f, err := os.OpenFile(fullPath, os.O_RDWR|os.O_CREATE, 0777)
 	if err != nil {
 		panic(err)
 	}
 	defer f.Close()
-	htmlData, err := ioutil.ReadAll(resp.Body)
 
+	// Read and write the file contents
+	htmlData, err := io.ReadAll(resp.Body)
 	if err != nil {
 		panic(err)
 	}
