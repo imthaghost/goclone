@@ -13,6 +13,12 @@ import (
 // Collector searches for css, js, and images within a given link
 // TODO improve for better performance
 func Collector(ctx context.Context, url string, projectPath string, cookieJar *cookiejar.Jar, proxyString string, userAgent string) error {
+	// First, download the main HTML file
+	fmt.Printf("Downloading main HTML from: %s\n", url)
+	if err := HTMLExtractor(url, projectPath); err != nil {
+		return fmt.Errorf("failed to download main HTML: %v", err)
+	}
+
 	// create a new collector
 	c := colly.NewCollector(colly.Async(true))
 	setUpCollector(c, ctx, cookieJar, proxyString, userAgent)
@@ -48,14 +54,6 @@ func Collector(ctx context.Context, url string, projectPath string, cookieJar *c
 		fmt.Println("Img found", "-->", link)
 		// extraction
 		Extractor(e.Request.AbsoluteURL(link), projectPath)
-	})
-
-	//Before making a request
-	c.OnRequest(func(r *colly.Request) {
-		link := r.URL.String()
-		if url == link {
-			HTMLExtractor(link, projectPath)
-		}
 	})
 
 	// Visit each url and wait for stuff to load :)
