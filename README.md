@@ -53,12 +53,13 @@ go install github.com/goclone-dev/goclone/cmd/goclone@latest
 #### Or
 
 ```bash
-# go get :)
-go get github.com/goclone-dev/goclone
-# change to project directory using your GOPATH
-cd $GOPATH/src/github.com/goclone-dev/goclone/cmd/goclone
-# build and install application
-go install
+# Clone the repository
+git clone https://github.com/goclone-dev/goclone.git
+cd goclone
+# Build and run
+go build -o goclone cmd/goclone/main.go
+# Move binary to a directory in your PATH (optional)
+mv goclone /usr/local/bin/
 ```
 
 <a name="examples"></a>
