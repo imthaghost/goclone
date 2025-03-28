@@ -35,8 +35,19 @@ var (
 
 			ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
 			defer stop()
+
+			// Create options from flags
+			opts := CloneOptions{
+				Serve:     Serve,
+				Open:      Open,
+				ServePort: ServePort,
+				Cookies:   Cookies,
+				Proxy:     ProxyString,
+				UserAgent: UserAgent,
+			}
+
 			// Otherwise.. clone ahead!
-			if err := cloneSite(ctx, args); err != nil {
+			if err := CloneSite(ctx, args, opts); err != nil {
 				log.Fatalf("%+v", err)
 			}
 		},
@@ -48,7 +59,6 @@ func Execute() {
 	// Persistent Flags
 	pf := rootCmd.PersistentFlags()
 	pf.BoolVarP(&Open, "open", "o", false, "Automatically open project in deafult browser")
-	// rootCmd.PersistentFlags().BoolVarP(&Login, "login", "l", false, "Wether to use a username or password")
 	pf.BoolVarP(&Serve, "serve", "s", false, "Serve the generated files using Echo.")
 	pf.IntVarP(&ServePort, "servePort", "P", 5000, "Serve port number.")
 	pf.StringVarP(&ProxyString, "proxy_string", "p", "", "Proxy connection string. Support http and socks5 https://pkg.go.dev/github.com/gocolly/colly#Collector.SetProxy")
