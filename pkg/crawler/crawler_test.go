@@ -5,9 +5,9 @@ import (
 	"os"
 	"testing"
 
+	"github.com/goclone-dev/goclone/pkg/file"
+	"github.com/goclone-dev/goclone/testutils"
 	"github.com/gocolly/colly/v2"
-	"github.com/imthaghost/goclone/pkg/file"
-	"github.com/imthaghost/goclone/testutils"
 )
 
 var TsUrl string

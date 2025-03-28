@@ -1,4 +1,4 @@
-module github.com/imthaghost/goclone
+module github.com/goclone-dev/goclone
 
 go 1.24
 
