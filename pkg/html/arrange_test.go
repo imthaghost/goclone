@@ -7,9 +7,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/imthaghost/goclone/pkg/crawler"
-	"github.com/imthaghost/goclone/pkg/file"
-	"github.com/imthaghost/goclone/testutils"
+	"github.com/goclone-dev/goclone/pkg/crawler"
+	"github.com/goclone-dev/goclone/pkg/file"
+	"github.com/goclone-dev/goclone/testutils"
 )
 
 func TestArrange(t *testing.T) {

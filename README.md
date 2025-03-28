@@ -10,9 +10,9 @@ Copy websites to your computer! Goclone is a utility that allows you to download
 <p align="center"><a href="https://goclone.io/">Official Website</a></p>
 <br>
 <p align="center">
-   <a href="https://goreportcard.com/report/github.com/imthaghost/goclone"><img src="https://goreportcard.com/badge/github.com/imthaghost/goclone"></a>
-   <a href="https://github.com/imthaghost/goclone/actions/workflows/master-workflow.yml"><img src="https://github.com/imthaghost/goclone/actions/workflows/master-workflow.yml/badge.svg"></a>
-   <a href="https://github.com/imthaghost/goclone/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
+   <a href="https://goreportcard.com/report/github.com/goclone-dev/goclone"><img src="https://goreportcard.com/badge/github.com/goclone-dev/goclone"></a>
+   <a href="https://github.com/goclone-dev/goclone/actions/workflows/master-workflow.yml"><img src="https://github.com/goclone-dev/goclone/actions/workflows/master-workflow.yml/badge.svg"></a>
+   <a href="https://github.com/goclone-dev/goclone/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
 </p>
 <br>
 
@@ -36,7 +36,7 @@ Copy websites to your computer! Goclone is a utility that allows you to download
 
 ```bash
 # tap
-brew tap imthaghost/goclone
+brew tap goclone-dev/goclone
 # install tool
 brew install goclone
 ```
@@ -47,20 +47,19 @@ brew install goclone
 
 ```bash
 # Go version >= 1.20
-go install github.com/imthaghost/goclone/cmd/goclone@latest
+go install github.com/goclone-dev/goclone/cmd/goclone@latest
 ```
+
 #### Or
 
 ```bash
 # go get :)
-go get github.com/imthaghost/goclone
+go get github.com/goclone-dev/goclone
 # change to project directory using your GOPATH
-cd $GOPATH/src/github.com/imthaghost/goclone/cmd/goclone
+cd $GOPATH/src/github.com/goclone-dev/goclone/cmd/goclone
 # build and install application
 go install
 ```
-
-
 
 <a name="examples"></a>
 
@@ -93,12 +92,12 @@ Flags:
 
 ## Contributors
 
-Contributions are welcome! Please see [Contributing Guide](https://github.com/imthaghost/goclone/blob/master/docs/CONTRIBUTING.md) for more details.
+Contributions are welcome! Please see [Contributing Guide](https://github.com/goclone-dev/goclone/blob/master/docs/CONTRIBUTING.md) for more details.
 
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/imthaghost"><img src="https://avatars3.githubusercontent.com/u/46610773?s=460&v=4" width="75px;" alt="Gary Frederick"/><br /><sub><b>Tha Ghost</b></sub></a><br /><a href="https://github.com/imthaghost/goclone/commits?author=imthaghost" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/imthaghost"><img src="https://avatars3.githubusercontent.com/u/46610773?s=460&v=4" width="75px;" alt="Gary Frederick"/><br /><sub><b>Tha Ghost</b></sub></a><br /><a href="https://github.com/goclone-dev/goclone/commits?author=imthaghost" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/imthaghost"><img src="https://avatars.githubusercontent.com/u/29051129?v=4" width="75px;" alt="Juan Mesaglio"/><br /><sub><b>Juan Mesaglio</b></sub></a><br /><a href="https://github.com/mesaglio" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/tempor1s"><img src="https://avatars0.githubusercontent.com/u/29741401?s=460&u=1ca03db5bbb7046bab14f72b7d6e801b9b0ac6f0&v=4" width="75px;" alt="Ben Lafferty"/><br /><sub><b>Ben Lafferty</b></sub></a><br /><a href="https://github.com/imthaghost/goclone/commits?author=tempor1s" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/omarsagoo"><img src="https://avatars3.githubusercontent.com/u/47726951?s=460&u=b806148e1598b97c454820c9c17452db39441177&v=4" width="75px;" alt="Omar Sagoo"/><br /><sub><b>Omar Sagoo</b></sub></a><br /><a href="https://github.com/imthaghost/goclone/commits?author=omarsagoo" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/tempor1s"><img src="https://avatars0.githubusercontent.com/u/29741401?s=460&u=1ca03db5bbb7046bab14f72b7d6e801b9b0ac6f0&v=4" width="75px;" alt="Ben Lafferty"/><br /><sub><b>Ben Lafferty</b></sub></a><br /><a href="https://github.com/goclone-dev/goclone/commits?author=tempor1s" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/omarsagoo"><img src="https://avatars3.githubusercontent.com/u/47726951?s=460&u=b806148e1598b97c454820c9c17452db39441177&v=4" width="75px;" alt="Omar Sagoo"/><br /><sub><b>Omar Sagoo</b></sub></a><br /><a href="https://github.com/goclone-dev/goclone/commits?author=omarsagoo" title="Code">💻</a></td>
   </tr>
