@@ -2,7 +2,6 @@ package html
 
 import (
 	"context"
-	"fmt"
 	"os"
 	"strings"
 	"testing"
@@ -12,26 +11,66 @@ import (
 	"github.com/goclone-dev/goclone/testutils"
 )
 
+// TestArrange verifies that the LinkRestructure function correctly reorganizes the paths
+// of resources (CSS, JS and images) in the HTML file, ensuring that:
+// 1. Paths are correctly updated to their new locations
+// 2. Files exist in their expected locations
+// 3. Original element attributes are preserved
 func TestArrange(t *testing.T) {
 	testutils.SilenceStdoutInTests()
 	ts := testutils.NewArrangeTestServer()
 	defer ts.Close()
+
+	// Initial setup
 	projectDirectory := file.CreateProject("test")
+	defer os.RemoveAll(projectDirectory)
+
+	// Run crawler and restructuring
 	crawler.Collector(context.Background(), ts.URL, projectDirectory, nil, "", "")
-	LinkRestructure(projectDirectory)
+
+	if err := LinkRestructure(projectDirectory); err != nil {
+		t.Fatalf("Error during restructuring: %v", err)
+	}
+
+	// Verify that index.html exists
+	if !file.Exists(projectDirectory + "/index.html") {
+		t.Fatal("index.html file should exist")
+	}
+
+	// Get and verify file content
 	indexFileContent := file.GetFileContent(projectDirectory + "/index.html")
 	if indexFileContent == testutils.ArrangeIndexContent {
-		t.Fatalf("Expect restructure html, no orginial: %s", testutils.ArrangeIndexContent)
+		t.Fatalf("Expected restructured HTML, not original: %s", testutils.ArrangeIndexContent)
 	}
-	if !strings.Contains(indexFileContent, "css/index.css") {
-		fmt.Println(indexFileContent)
-		t.Fatalf("Expect css route in html")
+
+	// Verify that files exist in expected locations
+	expectedFiles := []string{
+		"/css/index.css",
+		"/js/index.js",
+		"/imgs/image.png",
 	}
-	if !strings.Contains(indexFileContent, "js/index.js") {
-		t.Fatalf("Expect js route in html")
+
+	for _, expectedFile := range expectedFiles {
+		if !file.Exists(projectDirectory + expectedFile) {
+			t.Fatalf("File %s should exist", expectedFile)
+		}
 	}
-	if !strings.Contains(indexFileContent, "imgs/image.png") {
-		t.Fatalf("Expect imgs route in html")
+
+	// Verify paths in HTML
+	expectedPaths := []string{
+		"css/index.css",
+		"js/index.js",
+		"imgs/image.png",
 	}
-	os.RemoveAll(projectDirectory)
+
+	for _, path := range expectedPaths {
+		if !strings.Contains(indexFileContent, path) {
+			t.Fatalf("Expected to find path %s in HTML", path)
+		}
+	}
+
+	// Verify that original attributes are preserved
+	if !strings.Contains(indexFileContent, `alt="Red dot"`) {
+		t.Fatal("Expected to preserve alt attribute in image")
+	}
 }
