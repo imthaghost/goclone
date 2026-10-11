@@ -37,7 +37,7 @@ func TestWordPressDependencies(t *testing.T) {
 		switch r.URL.Path {
 		case "/":
 			w.Header().Set("Content-Type", "text/html")
-			fmt.Fprintf(w, `<!doctype html><link rel="stylesheet" href="/one/main.css?ver=1"><link rel="stylesheet" href="/two/main.css?ver=2"><link rel="stylesheet" href="%s/css?family=Inter"><img src="/hero.webp" srcset="/hero.webp 1x, /hero@2x.avif 2x"><img data-lazy-src="/lazy.webp"><img src="data:image/png;base64,AAAA"><style>.hero{background:url('/inline.webp')}body > a[data-x="yes"]:after{content:"a & b"}</style><a href="/about/">About</a><a href="/about/#team">Team</a><a href="/wp-admin/">Admin</a>`, external.URL)
+			fmt.Fprintf(w, `<!doctype html><link rel="stylesheet" href="/one/main.css?ver=1"><link rel="stylesheet" href="/two/main.css?ver=1"><link rel="stylesheet" href="%s/css?family=Inter"><img src="/hero.webp" srcset="/hero.webp 1x, /hero@2x.avif 2x"><img data-lazy-src="/lazy.webp"><img src="data:image/png;base64,AAAA"><style>.hero{background:url('/inline.webp')}body > a[data-x="yes"]:after{content:"a & b"}</style><a href="/about/">About</a><a href="/about/#team">Team</a><a href="/wp-admin/">Admin</a>`, external.URL)
 		case "/about/":
 			w.Header().Set("Content-Type", "text/html")
 			fmt.Fprint(w, `<img src="../hero.webp"><a href="/">Home</a>`)
