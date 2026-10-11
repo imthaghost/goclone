@@ -14,18 +14,24 @@ import (
 	"github.com/goclone-dev/goclone/pkg/crawler"
 	"github.com/goclone-dev/goclone/pkg/file"
 	"github.com/goclone-dev/goclone/pkg/html"
+	"github.com/goclone-dev/goclone/pkg/mirror"
 	"github.com/goclone-dev/goclone/pkg/parser"
 	"github.com/goclone-dev/goclone/pkg/server"
 )
 
 // CloneOptions contains all the options for the cloning process
 type CloneOptions struct {
-	Serve     bool
-	Open      bool
-	ServePort int
-	Cookies   []string
-	Proxy     string
-	UserAgent string
+	Serve         bool
+	Open          bool
+	ServePort     int
+	Cookies       []string
+	Proxy         string
+	UserAgent     string
+	Mirror        bool
+	MaxPages      int
+	Delay         time.Duration
+	InsecureHosts []string
+	Pages         []string
 }
 
 // CloneSite clones the site with the specified options
@@ -98,6 +104,16 @@ func cloneProjects(ctx context.Context, args []string, jar *cookiejar.Jar, opts 
 			firstProject = projectPath
 		}
 
+		if opts.Mirror {
+			client, err := mirrorClient(jar, opts)
+			if err != nil {
+				return "", err
+			}
+			if err := mirror.Run(ctx, u, projectPath, mirror.Options{Client: client, UserAgent: opts.UserAgent, Delay: opts.Delay, MaxPages: opts.MaxPages, Pages: opts.Pages}); err != nil {
+				return "", fmt.Errorf("%q: %w", u, err)
+			}
+			continue
+		}
 		if err := crawler.Crawl(ctx, u, projectPath, jar, opts.Proxy, opts.UserAgent); err != nil {
 			return "", fmt.Errorf("%q: %w", u, err)
 		}

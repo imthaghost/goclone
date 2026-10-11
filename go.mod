@@ -10,6 +10,7 @@ require (
 	github.com/spf13/cobra v1.10.2
 	github.com/torden/go-strutil v0.1.7
 	github.com/yosssi/gohtml v0.0.0-20190915184251-7ff6f235ecaf
+	golang.org/x/net v0.52.0
 	sigs.k8s.io/release-utils v0.12.3
 )
 
@@ -35,7 +36,6 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	golang.org/x/crypto v0.49.0 // indirect
-	golang.org/x/net v0.52.0 // indirect
 	golang.org/x/sys v0.42.0 // indirect
 	golang.org/x/text v0.35.0 // indirect
 	golang.org/x/time v0.14.0 // indirect
