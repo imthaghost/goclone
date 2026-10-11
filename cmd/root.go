@@ -5,18 +5,24 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"time"
 
 	"github.com/spf13/cobra"
 	relversion "sigs.k8s.io/release-utils/version"
 )
 
 var (
-	Open        bool
-	Serve       bool
-	ServePort   int
-	UserAgent   string
-	ProxyString string
-	Cookies     []string
+	Open          bool
+	Serve         bool
+	ServePort     int
+	UserAgent     string
+	ProxyString   string
+	Cookies       []string
+	Mirror        bool
+	MaxPages      int
+	Delay         time.Duration
+	InsecureHosts []string
+	Pages         []string
 
 	// Root cmd
 	rootCmd = &cobra.Command{
@@ -39,12 +45,17 @@ var (
 
 			// Create options from flags
 			opts := CloneOptions{
-				Serve:     Serve,
-				Open:      Open,
-				ServePort: ServePort,
-				Cookies:   Cookies,
-				Proxy:     ProxyString,
-				UserAgent: UserAgent,
+				Serve:         Serve,
+				Open:          Open,
+				ServePort:     ServePort,
+				Cookies:       Cookies,
+				Proxy:         ProxyString,
+				UserAgent:     UserAgent,
+				Mirror:        Mirror,
+				MaxPages:      MaxPages,
+				Delay:         Delay,
+				InsecureHosts: InsecureHosts,
+				Pages:         Pages,
 			}
 
 			// Otherwise.. clone ahead!
@@ -67,6 +78,11 @@ func Execute() {
 	pf.IntVarP(&ServePort, "servePort", "P", 5000, "Serve port number.")
 	pf.StringVarP(&ProxyString, "proxy_string", "p", "", "Proxy connection string. Support http and socks5 https://pkg.go.dev/github.com/gocolly/colly#Collector.SetProxy")
 	pf.StringVarP(&UserAgent, "user_agent", "u", "", "Custom User Agent")
+	pf.BoolVar(&Mirror, "mirror", false, "Capture linked pages, preserve paths, and download HTML/CSS dependencies")
+	pf.IntVar(&MaxPages, "max-pages", 100, "Maximum pages to capture in mirror mode")
+	pf.DurationVar(&Delay, "delay", 250*time.Millisecond, "Minimum interval between requests in mirror mode")
+	pf.StringSliceVar(&InsecureHosts, "insecure-host", nil, "Skip certificate verification ONLY for listed hosts in mirror mode")
+	pf.StringSliceVar(&Pages, "page", nil, "Additional same-origin pages to seed in mirror mode (repeatable)")
 	rootCmd.Flags().StringSliceVarP(&Cookies, "cookie", "C", nil, "Pre-set these cookies")
 
 	// Execute the command :)

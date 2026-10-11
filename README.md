@@ -89,6 +89,45 @@ Flags:
   -u, --user_agent string     Custom User Agent
 ```
 
+## Mirroring WordPress and other static sites
+
+Use the opt-in mirror mode when the site depends on responsive images, fonts,
+CSS imports/backgrounds, or several linked pages:
+
+```sh
+goclone --mirror --delay 500ms --max-pages 50 https://example.com/
+```
+
+Mirror mode preserves directory paths, downloads HTML and CSS dependencies
+(including WebP/AVIF, `srcset`, common lazy-load attributes, CSS `url()` and
+`@import`), and follows same-origin page links. External assets are placed in
+separate origin directories. Query strings remain part of the HTTP request and
+are hashed into local filenames to prevent collisions and invalid `?` filenames.
+References are rewritten to local paths. Serve the output directory over HTTP;
+root-relative URLs are not intended for `file://` browsing.
+
+Use repeatable `--page /path/` flags to include pages found in a sitemap but not
+linked from the entry page. The total includes these seeds and respects
+`--max-pages`. The crawler does not submit forms or follow admin/API routes,
+query-string navigation links, or off-origin page links. Every request uses the
+configured user agent, cookies, proxy, timeout, and cancellation context. Requests
+are sequential with `--delay` between them. A resource is limited to 64 MiB.
+
+`mirror-manifest.json` records source URLs, local files, MIME types, and failures.
+A failed download produces a nonzero exit status rather than silent success.
+The legacy single-page mode remains unchanged.
+
+TLS certificates are verified by default in mirror mode. For a known expired
+certificate on a site you administer, `--insecure-host example.com` provides an
+explicit exception for that exact hostname; redirects to other hosts retain
+verification. This option does not modify the global HTTP transport.
+
+This captures the public frontend, not WordPress's PHP source or database.
+JavaScript is not executed, so runtime-generated URLs, webpack chunks, embedded
+applications, and server-backed forms may need additional capture or a backend.
+The CSS scanner supports ordinary URL/import syntax, not a complete CSS parser;
+mixed data-URL `srcset` values are preserved without processing their other entries.
+
 <a name="contributors"></a>
 
 ## Contributors
